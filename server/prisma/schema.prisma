@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model audit_logs {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  action     String    @db.VarChar(100)
+  entity     String?   @db.VarChar(100)
+  entity_id  Int?
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  users      users?    @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+
+  @@index([user_id], map: "idx_logs_user")
+}
+
+model cells {
+  id                 Int                  @id @default(autoincrement())
+  shelf_id           Int
+  code               String               @db.VarChar(50)
+  max_capacity       Int
+  shelves            shelves              @relation(fields: [shelf_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  document_locations document_locations[]
+
+  @@unique([shelf_id, code])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model document_loans {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  document_id Int
+  issued_by   Int
+  quantity    Int
+  status      String
+  issued_at   DateTime  @default(now()) @db.Timestamp(6)
+  due_date    DateTime  @db.Timestamp(6)
+  returned_at DateTime? @db.Timestamp(6)
+  documents   documents @relation(fields: [document_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([document_id], map: "idx_loans_document")
+  @@index([user_id], map: "idx_loans_user")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model document_locations {
+  id          Int       @id @default(autoincrement())
+  document_id Int
+  cell_id     Int
+  quantity    Int
+  cells       cells     @relation(fields: [cell_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  documents   documents @relation(fields: [document_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([document_id, cell_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model documents {
+  id                 Int                  @id @default(autoincrement())
+  title              String               @db.VarChar(255)
+  subject            String?
+  inventory_number   String               @unique @db.VarChar(100)
+  created_at         DateTime?            @default(now()) @db.Timestamp(6)
+  quantity_total     Int
+  file_path          String?
+  file_name          String?
+  mime_type          String?
+  document_loans     document_loans[]
+  document_locations document_locations[]
+
+  @@index([inventory_number], map: "idx_documents_inventory")
+  @@index([title], map: "idx_documents_title")
+}
+
+model permissions {
+  id               Int                @id @default(autoincrement())
+  name             String             @unique @db.VarChar(100)
+  role_permissions role_permissions[]
+}
+
+model racks {
+  id      Int       @id @default(autoincrement())
+  code    String    @unique @db.VarChar(50)
+  shelves shelves[]
+}
+
+model role_permissions {
+  role_id       Int
+  permission_id Int
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  roles         roles       @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([role_id, permission_id])
+}
+
+model roles {
+  id               Int                @id @default(autoincrement())
+  name             String             @unique @db.VarChar(50)
+  role_permissions role_permissions[]
+  user_roles       user_roles[]
+}
+
+model shelves {
+  id      Int     @id @default(autoincrement())
+  rack_id Int
+  code    String  @db.VarChar(50)
+  cells   cells[]
+  racks   racks   @relation(fields: [rack_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([rack_id, code])
+}
+
+model user_roles {
+  user_id Int
+  role_id Int
+  roles   roles @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users   users @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, role_id])
+}
+
+model users {
+  id             Int              @id @default(autoincrement())
+  username       String           @unique @db.VarChar(50)
+  first_name     String           @db.VarChar(100)
+  last_name      String           @db.VarChar(100)
+  middle_name    String?          @db.VarChar(100)
+  email          String           @unique @db.VarChar(255)
+  phone          String?          @db.VarChar(20)
+  password_hash  String
+  department     String?          @db.VarChar(100)
+  created_at     DateTime?        @default(now()) @db.Timestamp(6)
+  audit_logs     audit_logs[]
+  document_loans document_loans[]
+  user_roles     user_roles[]
+}
