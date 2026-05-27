@@ -1,6 +1,7 @@
-const express = require('express')
-import { register, login, refresh, logout } from '../controllers/authController'
-import { authMiddleware } from '../middleware/authMiddleware'
+import express from 'express'
+import { register, login, refresh, logout } from '../controllers/authController.js'
+import { authMiddleware } from '../middleware/authMiddleware.js'
+
 const router = express.Router()
 
 router.post('/login', login)

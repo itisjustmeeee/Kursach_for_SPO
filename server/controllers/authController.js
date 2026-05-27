@@ -1,12 +1,12 @@
-import { generateAccessToken, generateRefreshToken } from '../utils/tokens'
-import { hashPassword, comparePassword } from '../utils/hash'
+import { generateAccessToken, generateRefreshToken } from '../utils/tokens.js'
+import { hashPassword, comparePassword } from '../utils/hash.js'
 import prisma from '../config/prisma.js'
 import jwt from 'jsonwebtoken'
 import { createAuditLog } from '../services/auditService.js'
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *  post:
  *      summary: Login user
  *      tags: [Auth]
@@ -101,7 +101,7 @@ export const login = async (req, res, next) => {
 
 /**
  * @swagger
- * /auth/register:
+ * /api/auth/register:
  *  post:
  *      summary: Register new user
  *      tags: [Auth]
@@ -136,7 +136,7 @@ export const login = async (req, res, next) => {
  *                              format: email
  *                          phone:
  *                              type: string
- *                              format:phone
+ *                              format: phone
  *                          password:
  *                              type: string
  *                              format: password
@@ -215,7 +215,7 @@ export const register = async (req, res, next) => {
 
 /**
  * @swagger
- * /auth/refresh:
+ * /api/auth/refresh:
  *  post:
  *      summary: Refresh access token
  *      tags: [Auth]
@@ -284,7 +284,7 @@ export const refresh = async (req, res) => {
 
 /**
  * @swagger
- * /auth/logout:
+ * /api/auth/logout:
  *  post:
  *      summary: Logout user
  *      tags: [Auth]

@@ -1,9 +1,9 @@
 import express from 'express'
-import { authMiddleware } from '../middleware/authMiddleware'
-import { permissionMiddleware } from '../middleware/permissionMiddleware'
-import { roleMiddleware } from '../middleware/roleMiddleware'
-import { uploadDocumentFile } from '../controllers/uploadController'
-import { upload } from '../middleware/uploadMiddleware'
+import { authMiddleware } from '../middleware/authMiddleware.js'
+import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
+import { roleMiddleware } from '../middleware/roleMiddleware.js'
+import { uploadDocumentFile } from '../controllers/uploadController.js'
+import { upload } from '../middleware/uploadMiddleware.js'
 
 const router = express.Router()
 

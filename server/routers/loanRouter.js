@@ -1,10 +1,10 @@
 import express from 'express'
-import { authMiddleware } from '../middleware/authMiddleware'
-import { permissionMiddleware } from '../middleware/permissionMiddleware'
-import { roleMiddleware } from '../middleware/roleMiddleware'
-import { issueDocument, returnDocument } from '../controllers/loanController'
-import { issueDocumentSchema } from '../validation/loanSchemas'
-import { validate } from '../middleware/validationMiddleware'
+import { authMiddleware } from '../middleware/authMiddleware.js'
+import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
+import { roleMiddleware } from '../middleware/roleMiddleware.js'
+import { issueDocument, returnDocument } from '../controllers/loanController.js'
+import { issueDocumentSchema } from '../validation/loanSchemas.js'
+import { validate } from '../middleware/validationMiddleware.js'
 
 const router = express.Router()
 

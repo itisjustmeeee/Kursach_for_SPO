@@ -1,4 +1,4 @@
-import prisma from "../config/prisma"
+import prisma from "../config/prisma.js"
 
 export const issueDocumentService = async ({user_id, document_id, issued_by, quantity, due_date}) => {
     return await prisma.$transaction(

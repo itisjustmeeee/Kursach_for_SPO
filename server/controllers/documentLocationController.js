@@ -1,9 +1,9 @@
-import prisma from "../config/prisma"
-import { createAuditLog } from "../services/auditService"
+import prisma from "../config/prisma.js"
+import { createAuditLog } from "../services/auditService.js"
 
 /**
  * @swagger
- * /document-locations/{id}:
+ * /api/locations/{id}:
  *  put:
  *      summary: update documet location
  *      tags: [Document locations]
@@ -88,7 +88,7 @@ export const updateDocumentLocation = async (req, res, next) => {
 
 /**
  * @swagger
- * /document-locations:
+ * /api/locations:
  *  post:
  *      summary: create document location
  *      tags: [Document locations]
@@ -203,7 +203,7 @@ export const createDocumentLocation = async (req, res, next) => {
 
 /**
  * @swagger
- * /documents/{id}/locations:
+ * /api/locations/documents/{id}:
  *  get:
  *      summary: get document location
  *      tags: [Document locations]

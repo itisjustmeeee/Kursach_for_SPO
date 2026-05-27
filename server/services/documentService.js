@@ -1,4 +1,4 @@
-import prisma from "../config/prisma"
+import prisma from "../config/prisma.js"
 
 export const getDocumentById = async (id) => {
     return await prisma.documents.findUnique({
@@ -24,7 +24,7 @@ export const getDocumentById = async (id) => {
 }
 
 export const getDocumentsService = async (query) => {
-    const {search, title, subject, inventory_number, page = 1, limit = 20} = query
+    const {search, title, subject, inventory_number, sort, order, page = 1, limit = 20} = query
 
     const allowedSortFields = [
         'title',

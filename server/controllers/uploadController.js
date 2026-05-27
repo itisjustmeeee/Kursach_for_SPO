@@ -1,10 +1,10 @@
 import { success } from "zod"
-import prisma from "../config/prisma"
-import { createAuditLog } from "../services/auditService"
+import prisma from "../config/prisma.js"
+import { createAuditLog } from "../services/auditService.js"
 
 /**
  * @swagger
- * /documents/{id}/upload:
+ * /api/uploads/documents/{id}/upload:
  *  post:
  *      summary: upload document file
  *      tags: [Documents]

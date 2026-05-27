@@ -9,10 +9,14 @@ export const permissionMiddleware = (permission) => {
         }
 
         const permissions = user.user_roles
-            .flatMap(ur => ur.roles.role_permissions)
-            .map(rp => rp.permissions.name)
+            .flatMap(
+                ur => ur.roles?.role_permissions?.map(
+                    rp => rp.permissions?.name
+                ) || []
+            )
+            .filter(Boolean)
 
-        if (!permissions.includes(permissions)) {
+        if (!permissions.includes(permission)) {
             return res.status(403).json({
                 message: 'Forbidden: permission denied'
             })

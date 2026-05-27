@@ -1,12 +1,18 @@
 import jwt from 'jsonwebtoken'
 import prisma from '../config/prisma.js'
 
-export const authMiddleware = async (req, resizeBy, next) => {
+export const authMiddleware = async (req, res, next) => {
     try {
-        const authHeader = req.headers.authorizaion
+        const authHeader = req.headers.authorization
 
         if (!authHeader) {
             return res.status(401).json({ message: 'No token' })
+        }
+
+        if (!authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({
+                message: 'Invalid token format'
+            })
         }
 
         const token = authHeader.split(' ')[1]
@@ -39,6 +45,6 @@ export const authMiddleware = async (req, resizeBy, next) => {
 
         next()
     } catch (err) {
-        res.status(401).json({ message: 'Unauthorized' })
+        res.status(401).json({ message: err.message })
     }
 }

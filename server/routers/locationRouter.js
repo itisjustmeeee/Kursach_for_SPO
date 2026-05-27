@@ -1,12 +1,12 @@
 import express from 'express'
-import { createDocumentLocation, updateDocumentLocation, getDocumentLocation } from '../controllers/documentLocationController'
-import { moveDocument } from '../controllers/documentMovementController'
-import { authMiddleware } from '../middleware/authMiddleware'
-import { permissionMiddleware } from '../middleware/permissionMiddleware'
-import { validate } from '../middleware/validationMiddleware'
-import { createDocumentLocationSchema, updateDocumentLocationSchema } from '../validation/locationSchemas'
-import { moveDocumentSchema } from '../validation/documentValidation'
-import { roleMiddleware } from '../middleware/roleMiddleware'
+import { createDocumentLocation, updateDocumentLocation, getDocumentLocation } from '../controllers/documentLocationController.js'
+import { moveDocument } from '../controllers/documentMovementController.js'
+import { authMiddleware } from '../middleware/authMiddleware.js'
+import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
+import { validate } from '../middleware/validationMiddleware.js'
+import { createDocumentLocationSchema, updateDocumentLocationSchema } from '../validation/locationSchemas.js'
+import { moveDocumentSchema } from '../validation/documentValidation.js'
+import { roleMiddleware } from '../middleware/roleMiddleware.js'
 
 const router = express.Router()
 

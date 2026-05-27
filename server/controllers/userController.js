@@ -1,15 +1,12 @@
-import { getUsersService, getUserByIdService } from "../services/userService"
-import { createAuditLog } from "../services/auditService"
+import { getUsersService, getUserByIdService } from "../services/userService.js"
+import { createAuditLog } from "../services/auditService.js"
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *  get:
  *      summary: get all users
  *      tags: [Users]
- * 
- *      security:
- *          - bearerAuth: []
  * 
  *      responses:
  *          200:
@@ -38,13 +35,11 @@ export const getUsers = async (req, res, next) => {
 
 /**
  * @swagger
- * /users/{id}:
+ * /api/users/{id}:
  *  get:
  *      summary: get user by id
  *      tags: [Users]
  * 
- *      security:
- *          - bearerAuth: []
  *      parameters:
  *          - in: path
  *            name: id

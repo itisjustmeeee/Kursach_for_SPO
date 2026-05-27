@@ -1,9 +1,9 @@
-import prisma from "../config/prisma"
-import { createAuditLog } from "../services/auditService"
+import prisma from "../config/prisma.js"
+import { createAuditLog } from "../services/auditService.js"
 
 /**
  * @swagger
- * /document-move:
+ * /api/locations/move:
  *  post:
  *      summary: move document
  *      tags: [Document movement]

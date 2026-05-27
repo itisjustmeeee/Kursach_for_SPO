@@ -1,5 +1,5 @@
 import { includes } from "zod"
-import prisma from "../config/prisma"
+import prisma from "../config/prisma.js"
 
 export const getUsersService = async () => {
     return await prisma.users.findMany({

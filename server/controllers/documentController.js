@@ -4,7 +4,7 @@ import { getDocumentById, getDocumentsService } from '../services/documentServic
 
 /**
  * @swagger
- * /documents:
+ * /api/documents:
  *  get:
  *      summary: get all documents
  *      tags: [Documents]
@@ -71,7 +71,7 @@ export const getDocuments = async (req, res, next) => {
 
 /**
  * @swagger
- * /documents/{id}:
+ * /api/documents/{id}:
  *  get:
  *      summary: get one document
  *      tags: [Documents]
@@ -122,7 +122,7 @@ export const getDocument = async(req, res, next) => {
 
 /**
  * @swagger
- * /documents/{id}:
+ * /api/documents/{id}:
  *  delete:
  *      summary: delete document
  *      tags: [Documents]
@@ -194,7 +194,7 @@ export const deleteDocument = async (req, res, next) => {
 
 /**
  * @swagger
- * /documents/{id}:
+ * /api/documents/{id}:
  *  put:
  *      summary: update document parameters
  *      tags: [Documents]
@@ -298,7 +298,7 @@ export const updateDocument = async (req, res, next) => {
 
 /**
  * @swagger
- * /documents:
+ * /api/documents:
  *  post:
  *      summary: create new document
  *      tags: [Documents]

@@ -1,7 +1,7 @@
 export const roleMiddleware = (allowedRoles = []) => {
     return (req, res, next) => {
         const userRoles = req.user.user_roles.map(
-            ur => ur.role.name
+            ur => ur.roles.name
         )
 
         const hasRole = userRoles.some(role => allowedRoles.includes(role))

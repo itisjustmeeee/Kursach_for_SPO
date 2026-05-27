@@ -1,9 +1,9 @@
-import { issueDocumentService, returnDocumentsService } from "../services/loanService"
-import { createAuditLog } from "../services/auditService"
+import { issueDocumentService, returnDocumentsService } from "../services/loanService.js"
+import { createAuditLog } from "../services/auditService.js"
 
 /**
  * @swagger
- * /loans/issue:
+ * /api/loans:
  *  post:
  *      summary: Issue document
  *      tags: [Loans]
@@ -61,7 +61,7 @@ export const issueDocument = async (req, res, next) => {
 
 /**
  * @swagger
- *  /loans/return/{id}:
+ *  /api/loans/{id}/return:
  *  post:
  *      summary: return document
  *      tags: [Loans]

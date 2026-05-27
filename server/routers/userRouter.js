@@ -1,8 +1,8 @@
 import express from 'express'
-import { authMiddleware } from '../middleware/authMiddleware'
-import { permissionMiddleware } from '../middleware/permissionMiddleware'
-import { roleMiddleware } from '../middleware/roleMiddleware'
-import { getUsers, getUser } from '../controllers/userController'
+import { authMiddleware } from '../middleware/authMiddleware.js'
+import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
+import { roleMiddleware } from '../middleware/roleMiddleware.js'
+import { getUsers, getUser } from '../controllers/userController.js'
 
 const router = express.Router()
 
