@@ -1,0 +1,41 @@
+$primary-color: #2a1ce4;
+$font-stack: 'Audiowide', 'Bahnschrift', Arial, sans-serif;
+
+nav {
+    font: 50% $font-stack
+}
+
+.site_name {
+    margin-left: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.links_to_pages {
+    display: flex;
+    gap: 15px;
+}
+
+.register_link {
+    margin-right: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #374151;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
