@@ -3,6 +3,7 @@ import MainLayout from "../layout/MainLayout"
 import AuthLayout from "../layout/AuthLayout"
 import ProtectedRoute from "../services/ProtectedRoute"
 import { ROLES } from "../components/navbar/navigation"
+import HomePage from "../pages/MainPage"
 
 export default function AppRouter() {
     return (
@@ -17,6 +18,10 @@ export default function AppRouter() {
                     />
                 </Route>
                 <Route element={<MainLayout />}>
+                    <Route
+                        path="/"
+                        element={<HomePage />}
+                    />
                     <Route 
                         path="/profile"
                         element={
