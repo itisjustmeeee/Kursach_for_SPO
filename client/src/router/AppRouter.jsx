@@ -1,9 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import MainLayout from "../layout/MainLayout"
-import AuthLayout from "../layout/AuthLayout"
-import ProtectedRoute from "../services/ProtectedRoute"
-import { ROLES } from "../components/navbar/navigation"
-import HomePage from "../pages/MainPage"
+import MainLayout from "../layout/MainLayout.jsx"
+import AuthLayout from "../layout/AuthLayout.jsx"
+import ProtectedRoute from "../services/ProtectedRoute.jsx"
+import { ROLES } from "../components/navbar/navigation.js"
+import HomePage from "../pages/MainPage.jsx"
+import LoginPage from "../pages/Auth/LoginPage.jsx"
+import RegisterPage from "../pages/Auth/RegisterPage.jsx"
+
 
 export default function AppRouter() {
     return (
@@ -12,9 +15,11 @@ export default function AppRouter() {
                 <Route element={<AuthLayout />}>
                     <Route
                         path="/Login"
+                        element={<LoginPage />}
                     />
                     <Route
                         path="/register"
+                        element={<RegisterPage />}
                     />
                 </Route>
                 <Route element={<MainLayout />}>

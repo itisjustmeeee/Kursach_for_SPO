@@ -11,6 +11,7 @@ import locationRouter from './routers/locationRouter.js'
 import uploadRouter from './routers/uploadRouter.js'
 import loanRouter from './routers/loanRouter.js'
 import userRouter from './routers/userRouter.js'
+import reportRouter from './routers/reportRouter.js'
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use('/api/locations', locationRouter)
 app.use('/api/uploads', uploadRouter)
 app.use('/api/loans', loanRouter)
 app.use('/api/users', userRouter)
+app.use('/api/reports', reportRouter)
 
 app.use(errorMiddleware)
 
