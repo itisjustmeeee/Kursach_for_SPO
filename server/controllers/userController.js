@@ -1,22 +1,6 @@
 import { getUsersService, getUserByIdService } from "../services/userService.js"
 import { createAuditLog } from "../services/auditService.js"
 
-/**
- * @swagger
- * /api/users:
- *  get:
- *      summary: get all users
- *      tags: [Users]
- * 
- *      responses:
- *          200:
- *              description: users list
- *          403:
- *              description: forbidden
- *          500:
- *              description: Server error
- */
-
 export const getUsers = async (req, res, next) => {
     try {
         const users = await getUsersService()
@@ -32,29 +16,6 @@ export const getUsers = async (req, res, next) => {
         next(err)
     }
 }
-
-/**
- * @swagger
- * /api/users/{id}:
- *  get:
- *      summary: get user by id
- *      tags: [Users]
- * 
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            schema:
- *              type: integer
- * 
- *      responses:
- *          200:
- *              description: user found
- *          404:
- *              description: user not found
- *          500:
- *              description: Server error
- */
 
 export const getUser = async (req, res, next) => {
     try {

@@ -1,47 +1,6 @@
 import prisma from "../config/prisma.js"
 import { createAuditLog } from "../services/auditService.js"
 
-/**
- * @swagger
- * /api/locations/{id}:
- *  put:
- *      summary: update documet location
- *      tags: [Document locations]
- * 
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            schema:
- *              type: integer
- * 
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          cell_id:
- *                              type: integer
- *                          quantity:
- *                              type: integer
- *      responses:
- *          200:
- *              description: location updated
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                              updatedLocation:
- *                                  type: object
- *          500:
- *             description: Server error 
- */
-
 export const updateDocumentLocation = async (req, res, next) => {
     try {
         const { id } = req.params
@@ -85,42 +44,6 @@ export const updateDocumentLocation = async (req, res, next) => {
         next(err)
     }
 }
-
-/**
- * @swagger
- * /api/locations:
- *  post:
- *      summary: create document location
- *      tags: [Document locations]
- * 
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          document_id:
- *                              type: integer
- *                          cell_id:
- *                              type: integer
- *                          quantity:
- *                              type: integer
- *      responses:
- *          201:
- *              description: Location created
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                              location:
- *                                  type: object
- *          500:
- *              description: Server error                    
- */
 
 export const createDocumentLocation = async (req, res, next) => {
     try {
@@ -200,33 +123,6 @@ export const createDocumentLocation = async (req, res, next) => {
         next(err)
     }
 }
-
-/**
- * @swagger
- * /api/locations/documents/{id}:
- *  get:
- *      summary: get document location
- *      tags: [Document locations]
- * 
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            schema:
- *              type: integer
- *      responses:
- *          200:
- *              description: list of locations
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              location:
- *                                  type: object
- *          500:
- *              description: Server error
- */
 
 export const getDocumentLocation = async (req, res, next) => {
     try {

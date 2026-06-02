@@ -1,40 +1,6 @@
 import prisma from "../config/prisma.js"
 import { createAuditLog } from "../services/auditService.js"
 
-/**
- * @swagger
- * /api/locations/move:
- *  post:
- *      summary: move document
- *      tags: [Document movement]
- * 
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                  properties:
- *                      location_id:
- *                          type: integer
- *                      new_cell_id:
- *                          type: integer
- *      responses:
- *          200:
- *              description: document moved
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                              moved:
- *                                  type: object
- *          500:
- *              description: Server error
- */
-
 export const moveDocument = async (req, res, next) => {
     try {
         const { location_id, new_cell_id } = req.validatedData

@@ -2,35 +2,6 @@ import { success } from "zod"
 import prisma from "../config/prisma.js"
 import { createAuditLog } from "../services/auditService.js"
 
-/**
- * @swagger
- * /api/uploads/documents/{id}/upload:
- *  post:
- *      summary: upload document file
- *      tags: [Documents]
- * 
- *      consumes:
- *          - multipart/form-data
- * 
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            schema:
- *              type: integer
- * 
- *          - in: formData
- *            name: file
- *            type: file
- *            required: true
- * 
- *      responses:
- *          200:
- *              description: file uploaded
- *          500:
- *              description: Server error
- */
-
 export const uploadDocumentFile = async (req, res, next) => {
     try {
         const { id } = req.params

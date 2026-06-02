@@ -12,6 +12,9 @@ import uploadRouter from './routers/uploadRouter.js'
 import loanRouter from './routers/loanRouter.js'
 import userRouter from './routers/userRouter.js'
 import reportRouter from './routers/reportRouter.js'
+import RacksRouter from './routers/RacksRouter.js'
+import ShelvesRouter from './routers/ShelvesRouter.js'
+import CellsRouter from './routers/CellsRouter.js'
 
 const app = express()
 
@@ -32,6 +35,9 @@ app.use('/api/uploads', uploadRouter)
 app.use('/api/loans', loanRouter)
 app.use('/api/users', userRouter)
 app.use('/api/reports', reportRouter)
+app.use('/api/racks', RacksRouter)
+app.use('/api/shelves', ShelvesRouter)
+app.use('/api/cells', CellsRouter)
 
 app.use(errorMiddleware)
 

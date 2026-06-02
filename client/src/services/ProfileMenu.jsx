@@ -9,7 +9,7 @@ export default function ProfileMenu() {
         <div>
             <button>
                 <img
-                    src={user?.avatar || profileImage}
+                    src={profileImage}
                     alt=''
                     className=''
                 />
