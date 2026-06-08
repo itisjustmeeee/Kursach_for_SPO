@@ -33,21 +33,25 @@ export const adminNavigation = [
         dropdown: [
             {
                 label: 'Пользователи',
-                path: '/users'
+                path: '/admin/users'
             },
             {
                 label: 'Документы',
-                path: '/documents'
+                path: '/admin/documents'
             },
             {
                 label: 'Архив',
-                path: '/archive'
+                path: '/admin/archive'
+            },
+            {
+                label: 'Отчеты',
+                path: '/admin/reports'
             }
         ]
     },
     {
         label: 'Заявки',
-        path: '/applications',
+        path: '/admin/applications',
         roles: [ROLES.ADMIN]
     }
 ]

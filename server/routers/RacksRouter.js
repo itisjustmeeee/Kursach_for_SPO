@@ -11,8 +11,7 @@ const router = express.Router()
  * /api/racks:
  *   get:
  *     summary: Получить список стеллажей
- *     tags:
- *       - Racks
+ *     tags: [Racks]
  *     security:
  *       - bearerAuth: []
  *     parameters:

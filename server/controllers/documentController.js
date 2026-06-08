@@ -1,6 +1,6 @@
 import prisma from '../config/prisma.js'
 import { createAuditLog } from '../services/auditService.js'
-import { getDocumentById, getDocumentsService } from '../services/documentService.js'
+import { getDocumentById, getDocumentsService, getUnusedDocuments } from '../services/documentService.js'
 
 export const getDocuments = async (req, res, next) => {
     try {
@@ -183,3 +183,14 @@ export const createDocument = async (req, res, next) => {
     }
 }
 
+export const getUnusedDocuments = async (req, res, next) => {
+    try {
+        const { months } = req.query
+
+        const documents = await getUnusedDocuments(months || 6)
+
+        res.json(documents)
+    } catch (err) {
+        next(err)
+    }
+}

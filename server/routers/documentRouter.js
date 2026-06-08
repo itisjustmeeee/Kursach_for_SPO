@@ -1,10 +1,11 @@
 import express from 'express'
-import { getDocument, getDocuments, createDocument, updateDocument, deleteDocument } from '../controllers/documentController.js'
+import { getDocument, getDocuments, createDocument, updateDocument, deleteDocument, getUnusedDocuments } from '../controllers/documentController.js'
 import { authMiddleware } from '../middleware/authMiddleware.js'
 import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
 import { validate } from '../middleware/validationMiddleware.js'
 import { createDocumentSchema, updateDocumentSchema } from '../validation/documentValidation.js'
 import { roleMiddleware } from '../middleware/roleMiddleware.js'
+import { checkDocumentAccess } from '../controllers/documentAccessController.js'
 
 const router = express.Router()
 
@@ -208,5 +209,84 @@ router.put('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddlewa
  */
 
 router.delete('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('delete_document'), deleteDocument)
+
+/**
+ * @swagger
+ * /api/documents/{id}/access:
+ *  get:
+ *      summary: Проверка доступа пользователя к скачиванию документа
+ *      tags: [Documents]
+ *      description: Возвращает canDownload: true, если у пользователя есть одобренная заявка на документ.
+ *      parameters:
+ *          - name: id
+ *            in: path
+ *            required: true
+ *            description: ID документа
+ *            schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: Статус доступа к документу
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              canDownload:
+ *                                  type: boolean
+ *                                  description: Доступ разрешен для скачивания
+ *                                  example: true
+ *          401:
+ *              description: Пользователь не авторизован
+ *          404:
+ *              description: Документ не найден
+ */
+
+router.get('/:id/access', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), checkDocumentAccess)
+
+/**
+ * @swagger
+ * /api/documents/unused:
+ *   get:
+ *     summary: Получить список документов, не востребованных за указанный срок
+ *     tags: [Documents]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: months
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 6
+ *         description: Количество месяцев без выдачи документа
+ *     responses:
+ *       200:
+ *         description: Список невостребованных документов
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   inventory_number:
+ *                     type: string
+ *                   subject:
+ *                     type: string
+ *                   quantity_total:
+ *                     type: integer
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *       500:
+ *         description: Server error
+ */
+
+router.get('/unused', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), getUnusedDocuments)
 
 export default router

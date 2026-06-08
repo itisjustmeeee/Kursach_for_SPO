@@ -1,11 +1,11 @@
 import prisma from "../config/prisma.js"
 
-export const issueDocumentService = async ({user_id, document_id, issued_by, quantity, due_date}) => {
+export const issueDocumentService = async (data) => {
     return await prisma.$transaction(
         async (tx) => {
             const document = await tx.documents.findUnique({
                 where: {
-                    id: Number(document_id)
+                    id: Number(data.document_id)
                 }
             })
 
@@ -15,22 +15,27 @@ export const issueDocumentService = async ({user_id, document_id, issued_by, qua
 
             const stored = await tx.document_locations.aggregate({
                 where: {
-                    document_id: Number(document_id)   
+                    document_id: Number(data.document_id)   
                 },
                 _sum: {
                     quantity: true
                 }
             })
 
-            const avaliable = stored._sum.quantity || 0
+            const available = stored._sum.quantity || 0
 
-            if (avaliable < quantity) {
+            if (available < data.quantity) {
                 throw new Error('Not enough documents avaliable')
             }
 
             const loan = await tx.document_loans.create({
                 data: {
-                    user_id, document_id, quantity, due_date: new Date(due_date), status: 'ISSUED', issued_by
+                    user_id: data.user_id,
+                    document_id: data.document_id,
+                    quantity: data.quantity,
+                    status: 'pending',
+                    due_date: data.due_date,
+                    issued_by: data.issued_by
                 }
             })
 
@@ -52,7 +57,7 @@ export const returnDocumentsService = async (loan_id) => {
                 throw new Error('loan not found')
             }
 
-            if (loan.status === 'RETURNED') {
+            if (loan.status === 'returned') {
                 throw new Error('document already returned')
             }
 
@@ -61,9 +66,172 @@ export const returnDocumentsService = async (loan_id) => {
                     id: Number(loan_id)
                 },
                 data: {
-                    returned_at: new Date(), status: 'RETURNED'
+                    status: 'returned',
+                    returned_at: new Date()
                 }
             })
         }
     )
+}
+
+export const getLoansService = async () => {
+    return prisma.document_loans.findMany({
+        include: {
+            users: true,
+            documents: true
+        }
+    })
+}
+
+export const getLoanService = async (id) => {
+    return prisma.document_loans.findUnique({
+        where: {
+            id: Number(id)
+        },
+        include: {
+            users: true,
+            documents: true
+        }
+    })
+}
+
+export const approveLoanService = async (id, employee_id) => {
+    const loan = await prisma.document_loans.findUnique({
+        where: {
+            id: Number(id)
+        }
+    })
+
+    if (!loan) {
+        throw new Error('loan not found')
+    }
+    
+    return prisma.document_loans.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            status: 'issued',
+            issued_by: employee_id
+        }
+    })
+}
+
+export const rejectLoanService = async (id) => {
+    const loan = await prisma.document_loans.findUnique({
+        where: {
+            id: Number(id)
+        }
+    })
+
+    if (!loan) {
+        throw new Error('loan not found')
+    }
+
+    return prisma.document_loans.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            status: "rejected"
+        }
+    })
+}
+
+export const getActiveLoansService = async () => {
+    return prisma.document_loans.findMany({
+        where: {
+            status: "issued"
+        },
+        include: {
+            users: true,
+            documents: true
+        }
+    })
+}
+
+export const getOverdueLoansService = async () => {
+    return prisma.document_loans.findMany({
+        where: {
+            status: "issued",
+            due_date: {
+                lt: new Date()
+            }
+        },
+        include: {
+            users: true,
+            documents: true
+        }
+    })
+}
+
+export const getUserLoansService = async (user_id) => {
+    return prisma.document_loans.findMany({
+        where: {
+            user_id: Number(user_id)
+        },
+        include: {
+            documents: true
+        }
+    })
+}
+
+export const getPendingLoansService = async () => {
+    return prisma.document_loans.findMany({
+        where: {
+            status: 'pending'
+        },
+        include: {
+            users: true,
+            documents: true
+        },
+        orderBy: {
+            issued_at: "desc"
+        }
+    })
+}
+
+export const getHistoryLoansService = async (query = {}) => {
+    const { search } = query
+
+    return prisma.document_loans.findMany({
+        where: {
+            status: "returned",
+            ...(search && {
+                OR: [
+                    {
+                        documents: {
+                            title: {
+                                contains: search,
+                                mode: "insensitive"
+                            }
+                        }
+                    },
+                    {
+                        users: {
+                            first_name: {
+                                contains: search,
+                                mode: "insensitive"
+                            }
+                        }
+                    },
+                    {
+                        users: {
+                            last_name: {
+                                contains: search,
+                                mode: "insensitive"
+                            }
+                        }
+                    }
+                ]
+            })
+        },
+        include: {
+            documents: true,
+            users: true
+        },
+        orderBy: {
+            returned_at: "desc"
+        }
+    })
 }

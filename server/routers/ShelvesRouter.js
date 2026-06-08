@@ -11,8 +11,7 @@ const router = express.Router()
  * /api/shelves:
  *   get:
  *     summary: Получить список полок
- *     tags:
- *       - Shelves
+ *     tags: [Shelves]
  *     security:
  *       - bearerAuth: []
  *     parameters:

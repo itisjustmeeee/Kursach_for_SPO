@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function DocumentCard({ document }) {
+export default function DocumentCard({ document, cell_id }) {
     return (
         <div>
             <h2>{document.title}</h2>
@@ -21,7 +21,7 @@ export default function DocumentCard({ document }) {
                 Дата поступления: {new Date(document.created_at).toLocaleDateString("ru-RU")}
             </p>
 
-            <Link to={`/documents/${document.id}`}>
+            <Link to={`cells/${cell_id}/documents/${document.id}`}>
                 Подробнее
             </Link>
         </div>

@@ -11,8 +11,7 @@ const router = express.Router()
  * /api/reports/document-locations/{documentId}:
  *   get:
  *     summary: получить местоположение документа
- *     tags:
- *       - Reports
+ *     tags: [Reports]
  *     parameters:
  *       - in: path
  *         name: documentId

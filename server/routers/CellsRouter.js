@@ -12,8 +12,7 @@ const router = express.Router()
  * /api/cells:
  *   get:
  *     summary: Получить список ячеек
- *     tags:
- *       - Cells
+ *     tags: [Cells]
  *     security:
  *       - bearerAuth: []
  *     parameters:

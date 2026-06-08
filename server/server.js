@@ -15,6 +15,9 @@ import reportRouter from './routers/reportRouter.js'
 import RacksRouter from './routers/RacksRouter.js'
 import ShelvesRouter from './routers/ShelvesRouter.js'
 import CellsRouter from './routers/CellsRouter.js'
+import ArchiveStatsRouter from './routers/ArchiveStatsRouter.js'
+import usersStatsRouter from './routers/usersStatsRouter.js'
+import documentsStatsRouter from './routers/documentsStatsRouter.js'
 
 const app = express()
 
@@ -38,6 +41,9 @@ app.use('/api/reports', reportRouter)
 app.use('/api/racks', RacksRouter)
 app.use('/api/shelves', ShelvesRouter)
 app.use('/api/cells', CellsRouter)
+app.use('/api/archive', ArchiveStatsRouter)
+app.use('/api/users-stats', usersStatsRouter)
+app.use('/api/documents-stats', documentsStatsRouter)
 
 app.use(errorMiddleware)
 

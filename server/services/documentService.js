@@ -107,3 +107,26 @@ export const getDocumentsService = async (query) => {
 
     return {documents, total, page: Number(page), limit: Number(limit), totalPages}
 }
+
+export const getUnusedDocuments = async (months) => {
+    const date = new Date()
+
+    date.setMonth(
+        date.getMonth() - Number(months)
+    )
+
+    return await prisma.documents.findMany({
+        where: {
+            document_loans: {
+                none: {
+                    issued_at: {
+                        gte: date
+                    }
+                }
+            }
+        },
+        include: {
+            document_locations: true
+        }
+    })
+}

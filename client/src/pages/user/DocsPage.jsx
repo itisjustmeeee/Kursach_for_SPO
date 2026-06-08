@@ -6,7 +6,7 @@ import DocumentCard from "../../components/docs/DocumentCard.jsx"
 import { fetchDocument } from "../../services/loanService.js"
 
 export default function DocumentsPage() {
-    const { cell_id, shelf_id, rack_id } = useParams()
+    const { cell_id } = useParams()
     const [documents, setDocuments] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -25,12 +25,10 @@ export default function DocumentsPage() {
                 const data = await fetchDocument({
                     cell_id,
                     search,
-                    sort: filters.sort,
-                    order: filters.order,
-                    subject: filters.subject
+                    ...filters
                 })
 
-                setDocuments(data.documents || data)
+                setDocuments(data.documents)
             } catch (err) {
                 setError(err?.response?.data?.message || "Ошибка загрузки документов")
             } finally {
@@ -39,7 +37,7 @@ export default function DocumentsPage() {
         }
 
         loadDocuments()
-    }, [cell_id, search, filters.sort, filters.order, filters.subject])
+    }, [cell_id, search, filters])
 
     return (
         <div style={{
@@ -84,8 +82,8 @@ export default function DocumentsPage() {
             />
 
             <div style={{ flex: 1 }}>
-                <Link to={`/racks/${rack_id}/shelves/${shelf_id}/cells`}>
-                    к ячейкам
+                <Link to={`/cells/${cell_id}`}>
+                    к ячейке
                 </Link>
 
                 <h1>
@@ -129,6 +127,7 @@ export default function DocumentsPage() {
                             <DocumentCard
                                 key={document.id}
                                 document={document}
+                                cell_id={cell_id}
                             />
                         ))}
                     </div>

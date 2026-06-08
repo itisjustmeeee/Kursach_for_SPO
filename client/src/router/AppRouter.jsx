@@ -11,7 +11,12 @@ import RacksPage from "../pages/user/RacksPage.jsx"
 import ShelvesPage from "../pages/user/ShelfPage.jsx"
 import CellsPage from "../pages/user/CellPage.jsx"
 import DocumentsPage from "../pages/user/DocsPage.jsx"
-
+import DocumentPage from "../pages/user/DocPage.jsx"
+import ActiveLoansPage from "../pages/user/ActiveLoansPage.jsx"
+import HistoryLoansPage from "../pages/user/HistoryLoanPage.jsx"
+import ArchiveStatsPage from "../pages/AdminOnlyPages/ArchiveDataPage.jsx"
+import UsersDataPage from "../pages/AdminOnlyPages/UsersDataPage.jsx"
+import DocumentsStatsPage from "../pages/AdminOnlyPages/DocumentsDataPage.jsx"
 
 export default function AppRouter() {
     return (
@@ -41,12 +46,32 @@ export default function AppRouter() {
                         element={<ShelvesPage />}
                     />
                     <Route
-                        path="/racks/:rack_id/shelves/:shelf_id/cells"
+                        path="/shelves/:shelf_id/cells"
                         element={<CellsPage />}
                     />
                     <Route
-                        path="/racks/:rack_id/shelves/:shelf_id/cells/:cell_id/documents"
+                        path="/cells/:cell_id/documents"
                         element={<DocumentsPage />}
+                    />
+                    <Route
+                        path="/cells/:cell_id/documents/:id"
+                        element={<DocumentPage />}
+                    />
+                    <Route
+                        path="/loans/active"
+                        element={
+                            <ProtectedRoute>
+                                <ActiveLoansPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/loans/history"
+                        element={
+                            <ProtectedRoute>
+                                <HistoryLoansPage />
+                            </ProtectedRoute>
+                        }
                     />
                     <Route 
                         path="/profile"
@@ -56,24 +81,32 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path="/admin/archive"
+                        element={
+                            <ProtectedRoute roles={[ROLES.ADMIN]}>
+                                <ArchiveStatsPage />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route 
-                        path="/users"
+                        path="/admin/users"
                         element={
                             <ProtectedRoute roles={[ROLES.ADMIN]}>
-
+                                <UsersDataPage />
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path="/documents"
+                        path="/admin/documents"
                         element={
                             <ProtectedRoute roles={[ROLES.ADMIN]}>
-                            
+                                <DocumentsStatsPage />
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path="/archive"
+                        path="/admin/reports"
                         element={
                             <ProtectedRoute roles={[ROLES.ADMIN]}>
                                 
