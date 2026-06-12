@@ -1,6 +1,6 @@
 import { getDocumentLocations, getUsersBySubject, getMostLoadedCell, getLastBorrower, getEmptyCells, getEmptyShelves, getEmptyRacks, getUnusedDocuments } from "../services/reportService.js"
 import { getDocumentById } from "../services/documentService.js"
-import { createAuditLog } from "../services/auditService.js"
+import { createAuditLogService } from "../services/auditService.js"
 
 export const getDocumentsLocationReport = async (req, res, next) => {
     try {
@@ -20,7 +20,7 @@ export const getUsersBySubjectReport = async (req, res, next) => {
         
         const result = await getUsersBySubject(subject)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_USERS_BY_SUBJECT',
             entity: 'USERS'
@@ -48,7 +48,7 @@ export const getLastBorrowerReport = async (req, res, next) => {
 
         const result = await getLastBorrower(document_id)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_LAST_BORROWER',
             entity: 'USERS'

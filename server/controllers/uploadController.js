@@ -1,6 +1,6 @@
 import { success } from "zod"
 import prisma from "../config/prisma.js"
-import { createAuditLog } from "../services/auditService.js"
+import { createAuditLogService } from "../services/auditService.js"
 
 export const uploadDocumentFile = async (req, res, next) => {
     try {
@@ -35,7 +35,7 @@ export const uploadDocumentFile = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'UPLOAD_DOCUMENT',
             entity: 'DOCUMENT',

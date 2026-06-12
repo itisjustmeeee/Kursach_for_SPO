@@ -1,12 +1,12 @@
 import prisma from '../config/prisma.js'
-import { createAuditLog } from '../services/auditService.js'
+import { createAuditLogService } from '../services/auditService.js'
 import { getDocumentById, getDocumentsService, getUnusedDocuments } from '../services/documentService.js'
 
 export const getDocuments = async (req, res, next) => {
     try {
         const documents = await getDocumentsService(req.query)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_DOCUMENTS',
             entity: 'DOCUMENT'
@@ -30,7 +30,7 @@ export const getDocument = async(req, res, next) => {
             })
         }
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_DOCUMENT',
             entity: 'DOCUMENT',
@@ -73,7 +73,7 @@ export const deleteDocument = async (req, res, next) => {
             })
         ])
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'DELETE_DOCUMENT',
             entity: 'DOCUMENT',
@@ -128,7 +128,7 @@ export const updateDocument = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'UPDATE_DOCUMENT',
             entity: 'DOCUMENT',
@@ -168,7 +168,7 @@ export const createDocument = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'CREATE_DOCUMENT',
             entity: 'DOCUMENT',

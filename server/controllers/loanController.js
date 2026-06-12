@@ -1,11 +1,11 @@
 import { issueDocumentService, returnDocumentsService, getLoansService, getLoanService, approveLoanService, rejectLoanService, getActiveLoansService, getOverdueLoansService, getUserLoansService, getPendingLoansService, getHistoryLoansService, getMyLoansService } from "../services/loanService.js"
-import { createAuditLog } from "../services/auditService.js"
+import { createAuditLogService } from "../services/auditService.js"
 
 export const issueDocument = async (req, res, next) => {
     try {
         const loan = await issueDocumentService({...req.validatedData, issued_by: req.user.id})
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'LOAN_DOCUMENT',
             entity: 'LOAN',
@@ -26,7 +26,7 @@ export const returnDocument = async (req, res, next) => {
     try {
         const loan = await returnDocumentsService(req.params.id)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'RETURN_DOCUMENT',
             entity: 'LOAN',
@@ -47,7 +47,7 @@ export const getLoans = async (req, res, next) => {
     try {
         const loans = await getLoanService()
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_LOANS',
             entity: 'LOAN'
@@ -69,7 +69,7 @@ export const getLoanById = async (req, res, next) => {
             })
         }
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_LOAN',
             entity: 'LOAN',
@@ -86,7 +86,7 @@ export const approveLoan = async (req, res, next) => {
     try {
         const loan = await approveLoanService(req.params.id, req.user.id)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'APPROVE_LOAN',
             entity: 'LOAN',
@@ -107,7 +107,7 @@ export const rejectLoan = async (req, res, next) => {
     try {
         const loan = await rejectLoanService(req.params.id)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'REJECT_LOAN',
             entity: 'LOAN',

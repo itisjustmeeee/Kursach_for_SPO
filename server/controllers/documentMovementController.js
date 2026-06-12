@@ -1,5 +1,5 @@
 import prisma from "../config/prisma.js"
-import { createAuditLog } from "../services/auditService.js"
+import { createAuditLogService } from "../services/auditService.js"
 
 export const moveDocument = async (req, res, next) => {
     try {
@@ -55,7 +55,7 @@ export const moveDocument = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'MOVE_DOCUMENT',
             entity: 'LOCATION',

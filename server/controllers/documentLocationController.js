@@ -1,5 +1,5 @@
 import prisma from "../config/prisma.js"
-import { createAuditLog } from "../services/auditService.js"
+import { createAuditLogService } from "../services/auditService.js"
 
 export const updateDocumentLocation = async (req, res, next) => {
     try {
@@ -30,7 +30,7 @@ export const updateDocumentLocation = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'UPDATE_DOCUMENT_LOCATION',
             entity: 'LOCATION',
@@ -109,7 +109,7 @@ export const createDocumentLocation = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'CREATE_DOCUMENT_LOCATION',
             entity: 'LOCATION',
@@ -143,7 +143,7 @@ export const getDocumentLocation = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_DOCUMENT_LOCATION',
             entity: 'LOCATION'

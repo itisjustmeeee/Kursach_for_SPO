@@ -1,11 +1,11 @@
 import { getUsersService, getUserByIdService } from "../services/userService.js"
-import { createAuditLog } from "../services/auditService.js"
+import { createAuditLogService } from "../services/auditService.js"
 
 export const getUsers = async (req, res, next) => {
     try {
         const users = await getUsersService()
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_USERS',
             entity: 'USERS',
@@ -27,7 +27,7 @@ export const getUser = async (req, res, next) => {
             })
         }
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'GET_USER_BY_ID',
             entity: 'USER',

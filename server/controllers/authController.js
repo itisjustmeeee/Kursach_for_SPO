@@ -2,7 +2,7 @@ import { generateAccessToken, generateRefreshToken } from '../utils/tokens.js'
 import { hashPassword, comparePassword } from '../utils/hash.js'
 import prisma from '../config/prisma.js'
 import jwt from 'jsonwebtoken'
-import { createAuditLog } from '../services/auditService.js'
+import { createAuditLogService } from '../services/auditService.js'
 
 export const login = async (req, res, next) => {
     try {
@@ -33,7 +33,7 @@ export const login = async (req, res, next) => {
         const accessToken = generateAccessToken(user)
         const refreshToken = generateRefreshToken(user)
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: user.id,
             action: 'LOGIN',
             entity: 'USER',
@@ -92,7 +92,7 @@ export const register = async (req, res, next) => {
             }
         })
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: user.id,
             action: 'REGISTER',
             entity: 'USER',
@@ -169,7 +169,7 @@ export const logout = async (req, res, next) => {
     try{
         res.clearCookie('refreshToken')
 
-        await createAuditLog({
+        await createAuditLogService({
             user_id: req.user.id,
             action: 'LOGOUT',
             entity: 'USER',
