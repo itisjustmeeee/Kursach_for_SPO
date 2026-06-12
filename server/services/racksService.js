@@ -13,7 +13,7 @@ export const getRacksService = async (query) => {
     })
 }
 
-export const getRackById = async (id) => {
+export const getRackByIdService = async (id) => {
     return await prisma.racks.findUnique({
         where: {
             id: Number(id)

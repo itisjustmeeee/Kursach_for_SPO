@@ -1,4 +1,4 @@
-import { getRacksService, getRackById, createRackService, updateRackService, deleteRackService } from "../services/racksService.js"
+import { getRacksService, getRackByIdService, createRackService, updateRackService, deleteRackService } from "../services/racksService.js"
 
 export const getRacks = async (req, res, next) => {
     try {
@@ -12,7 +12,7 @@ export const getRacks = async (req, res, next) => {
 
 export const getRackById = async (req, res, next) => {
     try {
-        const rack = await getRackById(req.params.id)
+        const rack = await getRackByIdService(req.params.id)
 
         res.json(rack)
     } catch (err) {

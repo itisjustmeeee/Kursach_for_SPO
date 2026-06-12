@@ -1,4 +1,4 @@
-import { getCellsService, getCellById, createCellService, updateCellService, deleteCellService } from "../services/cellsService.js"
+import { getCellsService, getCellByIdService, createCellService, updateCellService, deleteCellService } from "../services/cellsService.js"
 
 export const getCells = async (req, res, next) => {
     try {
@@ -12,7 +12,7 @@ export const getCells = async (req, res, next) => {
 
 export const getCellById = async (req, res, next) => {
     try {
-        const cell = await getCellById(req.params.id)
+        const cell = await getCellByIdService(req.params.id)
 
         res.json(cell)
     } catch (err) {

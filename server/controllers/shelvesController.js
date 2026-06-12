@@ -1,4 +1,4 @@
-import { getShelvesService, getShelfById, createShelfService, updateShelfService, deleteShelfService } from "../services/shelvesService.js"
+import { getShelvesService, getShelfByIdService, createShelfService, updateShelfService, deleteShelfService } from "../services/shelvesService.js"
 
 export const getShelves = async (req, res, next) => {
     try {
@@ -11,7 +11,7 @@ export const getShelves = async (req, res, next) => {
 
 export const getShelfById = async (req, res, next) => {
     try {
-        const shelf = await getShelfById(req.params.id)
+        const shelf = await getShelfByIdService(req.params.id)
 
         res.json(shelf)
     } catch (err) {

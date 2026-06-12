@@ -1,6 +1,7 @@
 import prisma from '../config/prisma.js'
 import { createAuditLogService } from '../services/auditService.js'
-import { getDocumentById, getDocumentsService, getUnusedDocuments } from '../services/documentService.js'
+import { getDocumentByIdService, getDocumentsService } from '../services/documentService.js'
+import { getUnusedDocumentsService } from '../services/reportService.js'
 
 export const getDocuments = async (req, res, next) => {
     try {
@@ -22,7 +23,7 @@ export const getDocument = async(req, res, next) => {
     try {
         const { id } = req.params
 
-        const document = await getDocumentById(id)
+        const document = await getDocumentByIdService(id)
 
         if (!document) {
             return res.status(404).json({
@@ -187,7 +188,7 @@ export const getUnusedDocuments = async (req, res, next) => {
     try {
         const { months } = req.query
 
-        const documents = await getUnusedDocuments(months || 6)
+        const documents = await getUnusedDocumentsService(months || 6)
 
         res.json(documents)
     } catch (err) {

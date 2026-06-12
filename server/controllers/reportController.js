@@ -1,5 +1,5 @@
-import { getDocumentLocations, getUsersBySubject, getMostLoadedCell, getLastBorrower, getEmptyCells, getEmptyShelves, getEmptyRacks, getUnusedDocuments } from "../services/reportService.js"
-import { getDocumentById } from "../services/documentService.js"
+import { getDocumentLocationsService, getUsersBySubjectService, getMostLoadedCellService, getLastBorrowerService, getEmptyCellsService, getEmptyShelvesService, getEmptyRacksService, getUnusedDocumentsService } from "../services/reportService.js"
+import { getDocumentByIdService } from "../services/documentService.js"
 import { createAuditLogService } from "../services/auditService.js"
 
 export const getDocumentsLocationReport = async (req, res, next) => {

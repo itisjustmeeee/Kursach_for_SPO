@@ -13,7 +13,7 @@ export const getShelvesService = async (query) => {
     })
 }
 
-export const getShelfById = async (id) => {
+export const getShelfByIdService = async (id) => {
     return prisma.shelves.findUnique({
         where: {
             id: Number(id)

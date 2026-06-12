@@ -66,7 +66,7 @@ export const getCellsService = async (query) => {
     return result
 }
 
-export const getCellById = async (id) => {
+export const getCellByIdService = async (id) => {
     return prisma.cells.findUnique({
         where: {
             id: Number(id)
