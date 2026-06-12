@@ -5,28 +5,27 @@ import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
 import { roleMiddleware } from '../middleware/roleMiddleware.js'
 
 const router = express.Router()
-
 /**
  * @swagger
  * /api/shelves:
- *   get:
- *     summary: Получить список полок
- *     tags: [Shelves]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: rackId
- *         schema:
- *           type: integer
- *         description: ID стеллажа
- *     responses:
- *       200:
- *         description: Список полок
- *       401:
- *         description: Не авторизован
- *      500:
- *          description: Server error
+ *  get:
+ *      summary: Получить список полок
+ *      tags: [Shelves]
+ *      security:
+ *          - bearerAuth: []
+ *      parameters:
+ *          - in: query
+ *            name: rack_id
+ *            schema:
+ *                type: integer
+ *            description: ID стеллажа
+ *      responses:
+ *          200:
+ *              description: Список полок
+ *          401:
+ *              description: Не авторизован
+ *          500:
+ *              description: Server error
  */
 
 router.get('/', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getShelves)

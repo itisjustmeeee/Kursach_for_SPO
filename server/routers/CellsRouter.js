@@ -10,24 +10,24 @@ const router = express.Router()
 /**
  * @swagger
  * /api/cells:
- *   get:
- *     summary: Получить список ячеек
- *     tags: [Cells]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: shelfId
- *         schema:
- *           type: integer
- *         description: ID полки
- *     responses:
- *       200:
- *         description: Список ячеек
- *       401:
- *         description: Не авторизован
- *      500:
- *          description: Server error
+ *  get:
+ *      summary: Получить список ячеек
+ *      tags: [Cells]
+ *      security:
+ *          - bearerAuth: []
+ *      parameters:
+ *          - in: query
+ *            name: shelf_id
+ *            schema:
+ *              type: integer
+ *            description: ID полки
+ *      responses:
+ *          200:
+ *              description: Список ячеек
+ *          401:
+ *              description: Не авторизован
+ *          500:
+ *              description: Server error
  */
 
 router.get('/', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getCells)

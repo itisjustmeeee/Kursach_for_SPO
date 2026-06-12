@@ -1,5 +1,5 @@
 import express from 'express'
-import { getDocumentsLocationReport, getUsersBySubjectReport, getMostLoadedCellReport, getLastBorrowerReport, getEmptyCellsReport, getEmptyShelvesReport, getEmptyRacksReport, getUnusedDocumentsReport } from '../controllers/reportController'
+import { getDocumentsLocationReport, getUsersBySubjectReport, getMostLoadedCellReport, getLastBorrowerReport, getEmptyCellsReport, getEmptyShelvesReport, getEmptyRacksReport, getUnusedDocumentsReport } from '../controllers/reportController.js'
 import { authMiddleware } from '../middleware/authMiddleware.js'
 import { permissionMiddleware } from '../middleware/permissionMiddleware.js'
 import { roleMiddleware } from '../middleware/roleMiddleware.js'

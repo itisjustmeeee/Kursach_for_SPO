@@ -9,34 +9,34 @@ const router = express.Router()
 /**
  * @swagger
  * /api/racks:
- *   get:
- *     summary: Получить список стеллажей
- *     tags: [Racks]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Поиск по коду стеллажа
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 20
- *     responses:
- *       200:
- *         description: Список стеллажей
- *       401:
- *         description: Не авторизован
- *      500:
- *         description: Server error 
+ *  get:
+ *      summary: Получить список стеллажей
+ *      tags: [Racks]
+ *      security:
+ *          - bearerAuth: []
+ *      parameters:
+ *          - in: query
+ *            name: search
+ *            schema:
+ *              type: string
+ *            description: Поиск по коду стеллажа
+ *          - in: query
+ *            name: page
+ *            schema:
+ *              type: integer
+ *            default: 1
+ *          - in: query
+ *            name: limit
+ *            schema:
+ *              type: integer
+ *            default: 20
+ *      responses:
+ *          200:
+ *              description: Список стеллажей
+ *          401:
+ *              description: Не авторизован
+ *          500:
+ *              description: Server error 
  */
 
 router.get('/', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getRacks)

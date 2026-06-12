@@ -1,5 +1,5 @@
 import prisma from "../config/prisma.js"
-import { getEmptyCells, getEmptyShelves, getEmptyRacks, getMostLoadedCell, getUnusedDocuments } from "./reportService.js"
+import { getEmptyCellsService, getEmptyShelvesService, getEmptyRacksService, getMostLoadedCellService, getUnusedDocumentsService } from "./reportService.js"
 
 export const getArchiveStatsService = async () => {
     const [

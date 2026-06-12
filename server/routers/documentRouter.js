@@ -6,6 +6,8 @@ import { validate } from '../middleware/validationMiddleware.js'
 import { createDocumentSchema, updateDocumentSchema } from '../validation/documentValidation.js'
 import { roleMiddleware } from '../middleware/roleMiddleware.js'
 import { checkDocumentAccess } from '../controllers/documentAccessController.js'
+import { uploadDocumentFile } from '../controllers/uploadController.js'
+import { upload } from '../middleware/uploadMiddleware.js'
 
 const router = express.Router()
 
@@ -216,7 +218,6 @@ router.delete('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddl
  *  get:
  *      summary: Проверка доступа пользователя к скачиванию документа
  *      tags: [Documents]
- *      description: Возвращает canDownload: true, если у пользователя есть одобренная заявка на документ.
  *      parameters:
  *          - name: id
  *            in: path
