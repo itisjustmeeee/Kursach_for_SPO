@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import RacksCard from "../../components/docs/RacksCard.jsx"
-import { fetchRacks } from "../../services/RacksService.js"
+import StorageFormCard from "../../components/createComponent.jsx"
+import { fetchRacks, createRack } from "../../services/RacksService.js"
+import useAuth from "../../hooks/useAuth.js"
 
 export default function RacksPage() {
+    const { user } = useAuth()
     const [racks, setRacks] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -13,29 +16,62 @@ export default function RacksPage() {
         order: 'asc'
     })
     const [search, setSearch] = useState("")
+    const [newRack, setNewRack] = useState({
+        code: ""
+    })
+    const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
+    
+    const loadRacks = useCallback(async () => {
+        try {
+            setLoading(true)
+
+            const data = await fetchRacks({
+                search,
+                ...filters
+            })
+
+            setRacks(data)
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Ошибка загрузки стеллажей"
+            )
+        } finally {
+            setLoading(false)
+        }
+    }, [search, filters])
 
     useEffect(() => {
-        const loadRacks = async () => {
-            try {
-                setLoading(true)
-
-                const data = await fetchRacks({
-                    search,
-                    ...filters
-                })
-
-                setRacks(data)
-            } catch (err) {
-                setError(
-                    err.response?.data?.message || "Ошибка загрузки стеллажей"
-                )
-            } finally {
-                setLoading(false)
-            }
+        const wrapper = async () => {
+            loadRacks()
         }
 
-        loadRacks()
-    }, [search, filters])
+        wrapper()
+    }, [loadRacks])
+
+    const handleRackChange = (name, value) => {
+        setNewRack(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleCreateRack = async (e) => {
+        e.preventDefault()
+
+        try {
+            await createRack(newRack)
+
+            setNewRack({
+                code: ""
+            })
+
+            await loadRacks()
+        } catch (err) {
+            alert(
+                err?.response?.data?.message || "Ошибка создания стеллажа"
+            )
+        }
+    }
 
     return (
         <div style={{
@@ -64,6 +100,22 @@ export default function RacksPage() {
                     placeholder="Поиск стеллажа..."
                     onSearch={setSearch}
                 />
+
+                {isAdmin && (
+                    <StorageFormCard
+                        title="Создать стеллаж"
+                        values={newRack}
+                        fields={[
+                            {
+                                name: "code",
+                                label: "Код стеллажа"
+                            }
+                        ]}
+                        onChange={handleRackChange}
+                        onSubmit={handleCreateRack}
+                        submitText="Создать"
+                    />
+                )}
 
                 {loading && (
                     <p>

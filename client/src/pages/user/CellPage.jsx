@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SearchBar from '../../components/bars/SearchBar.jsx'
 import Sidebar from '../../components/bars/Sidebar.jsx'
 import CellCard from '../../components/docs/CellsCard.jsx'
-import { fetchCells } from '../../services/CellService.js'
+import StorageFormCard from '../../components/createComponent.jsx'
+import { fetchCells, createCell } from '../../services/CellService.js'
+import useAuth from '../../hooks/useAuth.js'
 
 export default function CellsPage() {
+    const { user } = useAuth()
     const { shelf_id, rack_id } = useParams()
     const [cells, setCells] = useState([])
     const [loading, setLoading] = useState(true)
@@ -17,29 +20,70 @@ export default function CellsPage() {
         status: ""
     })
 
+    const [formValues, setFormValues] = useState({
+        code: "",
+        max_capacity: ""
+    })
+    const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
+
+    
+    const loadCells = useCallback(async () => {
+        try {
+            setLoading(true)
+
+            const data = await fetchCells({
+                shelf_id,
+                search,
+                ...filters
+            })
+
+            setCells(data)
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Ошибка загрузки ячеек"
+            )
+        } finally {
+            setLoading(false)
+        }
+    }, [shelf_id, search, filters])
+
     useEffect(() => {
-        const loadCells = async () => {
-            try {
-                setLoading(true)
-
-                const data = await fetchCells({
-                    shelf_id: shelf_id,
-                    search,
-                    ...filters
-                })
-
-                setCells(data)
-            } catch (err) {
-                setError(
-                    err.response?.data?.message || "Ошибка загрузки ячеек"
-                )
-            } finally {
-                setLoading(false)
-            }
+        const wrapper = async () => {
+            loadCells()
         }
 
-        loadCells()
-    }, [shelf_id, search, filters])
+        wrapper()
+    }, [loadCells])
+
+    const handleChange = (name, value) => {
+        setFormValues(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleCreateCell = async (e) => {
+        e.preventDefault()
+
+        try {
+            await createCell({
+                code: formValues.code,
+                max_capacity: Number(formValues.max_capacity),
+                shelf_id: Number(shelf_id)
+            })
+
+            setFormValues({
+                code: "",
+                max_capacity: ""
+            })
+
+            await loadCells()
+        } catch (err) {
+            alert(
+                err.response?.data?.message || "Ошибка создания ячейки"
+            )
+        }
+    }
 
     return (
         <div style={{
@@ -111,6 +155,27 @@ export default function CellsPage() {
                     placeholder='Поиск ячейки...'
                     onSearch={setSearch}
                 />
+
+                {isAdmin && (
+                    <StorageFormCard
+                        title="Создать ячейку"
+                        fields={[
+                            {
+                                name: "code",
+                                label: "Код ячейки"
+                            },
+                            {
+                                name: "max_capacity",
+                                label: "Вместимость",
+                                type: "number"
+                            }
+                        ]}
+                        values={formValues}
+                        onChange={handleChange}
+                        onSubmit={handleCreateCell}
+                        submitText='Создать ячейку'
+                    />
+                )}
 
                 {loading && (
                     <p>

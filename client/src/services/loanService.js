@@ -13,3 +13,11 @@ export const returnLoan = async (loan_id) => {
 
     return response.data
 }
+
+export const createLoanRequest = async (document_id) => {
+    const response = await api.post('/api/loans/request', {
+        document_id
+    })
+
+    return response.data
+}

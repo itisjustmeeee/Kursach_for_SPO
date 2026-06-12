@@ -235,3 +235,17 @@ export const getHistoryLoansService = async (query = {}) => {
         }
     })
 }
+
+export const getMyLoansService = async (user_id) => {
+    return prisma.document_loans.findMany({
+        where: {
+            user_id
+        },
+        include: {
+            documents: true
+        },
+        orderBy: {
+            issued_at: "desc"
+        }
+    })
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { fetchDocumentsById } from "../../services/getDocService.js"
+import { createLoanRequest } from "../../services/loanService.js"
 import api from "../../api/axios.js"
 
 export default function DocumentPage() {
@@ -37,9 +38,7 @@ export default function DocumentPage() {
         try {
             setRequestLoading(true)
 
-            await api.post('/api/loans', {
-                document_id: id
-            })
+            await createLoanRequest(id)
 
             alert("Заявка отправлена. Дождитесь одобрения")
 

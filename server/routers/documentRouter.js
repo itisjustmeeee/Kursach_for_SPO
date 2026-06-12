@@ -289,4 +289,35 @@ router.get('/:id/access', authMiddleware, roleMiddleware(['admin']), permissionM
 
 router.get('/unused', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), getUnusedDocuments)
 
+/**
+ * @swagger
+ * /api/documents/{id}/upload:
+ *  post:
+ *      summary: upload document file
+ *      tags: [Documents]
+ * 
+ *      consumes:
+ *          - multipart/form-data
+ * 
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            schema:
+ *              type: integer
+ * 
+ *          - in: formData
+ *            name: file
+ *            type: file
+ *            required: true
+ * 
+ *      responses:
+ *          200:
+ *              description: file uploaded
+ *          500:
+ *              description: Server error
+ */
+
+router.post('/:id/upload', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('upload_documents'), upload.single('file'), uploadDocumentFile)
+
 export default router

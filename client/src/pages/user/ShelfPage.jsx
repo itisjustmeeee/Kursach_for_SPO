@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import ShelfCard from "../../components/docs/ShelvesCard.jsx"
-import { fecthShelves } from "../../services/ShelvesService.js"
+import StorageFormCard from "../../components/createComponent.jsx"
+import { fecthShelves, createShelf } from "../../services/ShelvesService.js"
+import useAuth from "../../hooks/useAuth.js"
 
 export default function ShelvesPage() {
+    const { user } = useAuth()
     const [searchParams] = useSearchParams()
     const rack_id = searchParams.get("rack")
     const [shelves, setShelves] = useState([])
@@ -17,29 +20,70 @@ export default function ShelvesPage() {
         order: 'asc'
     })
 
+    const [formValues, setFormValues] = useState({
+        code: "",
+        rack_id: rack_id || ""
+    })
+
+    const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
+
+    
+    const loadData = useCallback(async () => {
+        try {
+            setLoading(true)
+
+            const data = await fecthShelves({
+                rack_id,
+                search,
+                ...filters
+            })
+
+            setShelves(data)
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Ошибка загрузки полок"
+            )
+        } finally {
+            setLoading(false)
+        }
+    }, [rack_id, search, filters])
+
     useEffect(() => {
-        const loadData = async () => {
-            try {
-                setLoading(true)
-
-                const data = await fecthShelves({
-                    rack_id: rack_id,
-                    search,
-                    ...filters
-                })
-
-                setShelves(data)
-            } catch (err) {
-                setError(
-                    err.response?.data?.message || "Ошибка загрузки полок"
-                )
-            } finally {
-                setLoading(false)
-            }
+        const wrapper = async () => {
+            loadData()
         }
 
-        loadData()
-    }, [rack_id, search, filters])
+        wrapper()
+    }, [loadData])
+
+    const handleChange = (name, value) => {
+        setFormValues(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        try {
+            await createShelf({
+                ...formValues,
+                rack_id
+            })
+
+            setFormValues({
+                code: "",
+                rack_id
+            })
+
+            await loadData()
+        } catch (err) {
+            alert(
+                err.response?.data?.message || "Ошибка создания полки"
+            )
+        }
+    }
 
     return (
         <div style={{
@@ -74,6 +118,22 @@ export default function ShelvesPage() {
                     placeholder="Поиск полки..."
                     onSearch={setSearch}
                 />
+
+                {isAdmin && (
+                    <StorageFormCard
+                        title="Создать полку"
+                        fields={[
+                            {
+                                name: "code",
+                                label: "Код полки"
+                            }
+                        ]}
+                        values={formValues}
+                        onChange={handleChange}
+                        onSubmit={handleSubmit}
+                        submitText="Создать полку"
+                    />
+                )}
 
                 {loading && (
                     <p>

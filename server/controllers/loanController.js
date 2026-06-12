@@ -1,4 +1,4 @@
-import { issueDocumentService, returnDocumentsService, getLoansService, getLoanService, approveLoanService, rejectLoanService, getActiveLoansService, getOverdueLoansService, getUserLoansService, getPendingLoansService, getHistoryLoansService } from "../services/loanService.js"
+import { issueDocumentService, returnDocumentsService, getLoansService, getLoanService, approveLoanService, rejectLoanService, getActiveLoansService, getOverdueLoansService, getUserLoansService, getPendingLoansService, getHistoryLoansService, getMyLoansService } from "../services/loanService.js"
 import { createAuditLog } from "../services/auditService.js"
 
 export const issueDocument = async (req, res, next) => {
@@ -167,6 +167,16 @@ export const getPendingLoans = async (req, res, next) => {
 export const getHistoryLoans = async (req, res, next) => {
     try {
         const loans = await getHistoryLoansService(req.query)
+
+        res.json(loans)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const getMyLoans = async (req, res, next) => {
+    try {
+        const loans = getMyLoansService(req.user.id)
 
         res.json(loans)
     } catch (err) {
