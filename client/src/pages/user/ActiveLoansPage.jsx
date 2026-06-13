@@ -1,7 +1,8 @@
-import { useState, useEffect, Link } from "react"
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
-import LoanCard from "../../components/docs/loanCard.jsx"
+import LoanCard from "../../components/docs/LoanCard.jsx"
 import { fetchActiveLoans, returnLoan } from "../../services/loanService.js"
 
 export default function ActiveLoansPage() {
@@ -101,7 +102,7 @@ export default function ActiveLoansPage() {
                     gap: "15px",
                     marginBottom: "15px"
                 }}>
-                    <Link to="/loans/history">
+                    <Link to="/loans/loan-history">
                         История
                     </Link>
                 </div>

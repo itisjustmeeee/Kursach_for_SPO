@@ -56,7 +56,7 @@ export default function AppRouter() {
                         }
                     />
                     <Route
-                        path="/shelves/:shelf_id/cells"
+                        path="/racks/:rack_id/shelves/:shelf_id/cells"
                         element={
                             <ProtectedRoute>
                                 <CellsPage />
@@ -64,7 +64,7 @@ export default function AppRouter() {
                         }
                     />
                     <Route
-                        path="/cells/:cell_id/documents"
+                        path="/shelves/:shelf_id/cells/:cell_id/documents"
                         element={
                             <ProtectedRoute>
                                 <DocumentsPage />
@@ -72,7 +72,7 @@ export default function AppRouter() {
                         }
                     />
                     <Route
-                        path="/cells/:cell_id/documents/:id"
+                        path="/shelves/:shelf_id/cells/:cell_id/documents/:id"
                         element={
                             <ProtectedRoute>
                                 <DocumentPage />

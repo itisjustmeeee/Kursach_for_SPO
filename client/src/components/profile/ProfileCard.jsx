@@ -7,6 +7,8 @@ export default function ProfileCard({ user, onLogout }) {
                 <img
                     src={profileImage}
                     alt="profile"
+                    widht="300"
+                    height="300"
                     className=''
                 />
             </div>

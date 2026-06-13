@@ -1,7 +1,8 @@
-import { useState, useEffect, Link } from "react"
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
-import LoanCard from "../../components/docs/loanCard.jsx"
+import LoanCard from "../../components/docs/LoanCard.jsx"
 import { fetchHistoryLoans } from "../../services/HistoryLoanService.js"
 
 export default function HistoryLoansPage() {
@@ -84,7 +85,7 @@ export default function HistoryLoansPage() {
                     gap: "15px",
                     marginBottom: "15px"
                 }}>
-                    <Link to="/loans/active">
+                    <Link to="/loans/loan-active">
                         Активные выдачи
                     </Link>
                 </div>
@@ -94,7 +95,7 @@ export default function HistoryLoansPage() {
                 </h1>
 
                 <p>
-                    Всего записей: {" "}{loans.length}
+                    Всего записей: {" "}{loans?.length || 0}
                 </p>
                 <SearchBar
                     placeholder="Поиск документа или пользователя..."
@@ -113,13 +114,13 @@ export default function HistoryLoansPage() {
                     </p>
                 )}
 
-                {!loading && loans.length === 0 && (
+                {!loading && loans?.length === 0 && (
                     <p>
                         История пуста
                     </p>
                 )}
 
-                {!loading && loans.length > 0 && (
+                {!loading && loans?.length > 0 && (
                     <div style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",

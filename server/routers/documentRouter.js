@@ -66,34 +66,6 @@ router.get('/', authMiddleware, roleMiddleware(['user', 'admin']), permissionMid
 
 /**
  * @swagger
- * /api/documents/{id}:
- *  get:
- *      summary: get one document
- *      tags: [Documents]
- * 
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            schema:
- *              type: integer
- *      responses:
- *          200:
- *              description: document found
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *          404:
- *              description: document not found
- *          500:
- *              description: Server error
- */
-
-router.get('/:id', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getDocument)
-
-/**
- * @swagger
  * /api/documents:
  *  post:
  *      summary: create new document
@@ -131,6 +103,79 @@ router.get('/:id', authMiddleware, roleMiddleware(['user', 'admin']), permission
  */
 
 router.post('/', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('create_document'), validate(createDocumentSchema), createDocument)
+
+/**
+ * @swagger
+ * /api/documents/unused:
+ *   get:
+ *     summary: Получить список документов, не востребованных за указанный срок
+ *     tags: [Documents]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: months
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 6
+ *         description: Количество месяцев без выдачи документа
+ *     responses:
+ *       200:
+ *         description: Список невостребованных документов
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   inventory_number:
+ *                     type: string
+ *                   subject:
+ *                     type: string
+ *                   quantity_total:
+ *                     type: integer
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *       500:
+ *         description: Server error
+ */
+
+router.get('/unused', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), getUnusedDocuments)
+
+/**
+ * @swagger
+ * /api/documents/{id}:
+ *  get:
+ *      summary: get one document
+ *      tags: [Documents]
+ * 
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: document found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *          404:
+ *              description: document not found
+ *          500:
+ *              description: Server error
+ */
+
+router.get('/:id', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getDocument)
 
 /**
  * @swagger
@@ -244,51 +289,6 @@ router.delete('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddl
  */
 
 router.get('/:id/access', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), checkDocumentAccess)
-
-/**
- * @swagger
- * /api/documents/unused:
- *   get:
- *     summary: Получить список документов, не востребованных за указанный срок
- *     tags: [Documents]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: months
- *         required: true
- *         schema:
- *           type: integer
- *           example: 6
- *         description: Количество месяцев без выдачи документа
- *     responses:
- *       200:
- *         description: Список невостребованных документов
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   title:
- *                     type: string
- *                   inventory_number:
- *                     type: string
- *                   subject:
- *                     type: string
- *                   quantity_total:
- *                     type: integer
- *                   created_at:
- *                     type: string
- *                     format: date-time
- *       500:
- *         description: Server error
- */
-
-router.get('/unused', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), getUnusedDocuments)
 
 /**
  * @swagger

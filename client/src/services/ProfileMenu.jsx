@@ -11,6 +11,8 @@ export default function ProfileMenu() {
                 <img
                     src={profileImage}
                     alt=''
+                    width="200"
+                    height="200"
                     className=''
                 />
                 <span>{user?.username}</span>

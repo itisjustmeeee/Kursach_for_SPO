@@ -5,7 +5,7 @@ import DropDown from "../../services/DropDown.jsx"
 import ProfileMenu from "../../services/ProfileMenu.jsx"
 
 export default function Navbar() {
-    const {user} = useAuth()
+    const { user } = useAuth()
 
     const location = useLocation()
 
@@ -18,26 +18,26 @@ export default function Navbar() {
         return null
     }
 
-    const userRole = user?.role
+    const userRoles = user?.roles || []
 
     const navigationItems = [
         ...baseNavigation,
 
-        ...(userRole === ROLES.ADMIN ? adminNavigation : [])
+        ...(userRoles.includes(ROLES.ADMIN) ? adminNavigation : [])
     ].filter(item => {
         if (!item.roles) {
             return true
         }
 
-        return item.roles.includes(userRole)
+        return item.roles.some(role => userRoles.includes(role))
     })
 
     return (
-        <nav className="">
+        <nav>
             <Link to="/">
                 Simple Archive
             </Link>
-            <div className="">
+            <div>
                 {navigationItems.map(item => (
                     item.dropdown ? (
                         <DropDown
@@ -57,7 +57,7 @@ export default function Navbar() {
             </div>
             <div>
                 {!user ? (
-                    <div className="">
+                    <div>
                         <Link to="/login">
                             Вход
                         </Link>
@@ -71,5 +71,4 @@ export default function Navbar() {
             </div>
         </nav>
     )
-
 }

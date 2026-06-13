@@ -1,12 +1,19 @@
 import prisma from "../config/prisma.js"
 
 export const getCellsService = async (query) => {
-    const { shelf_id, empty, status } = query
+    const { shelf_id, empty, status, search, sort = "code", order = "asc" } = query
 
     const where = {}
 
     if (shelf_id) {
         where.shelf_id = Number(shelf_id)
+    }
+
+    if (search) {
+        where.code = {
+            contains: search,
+            mode: "insensitive"
+        }
     }
 
     if (empty === "true") {
@@ -27,7 +34,7 @@ export const getCellsService = async (query) => {
         }
     })
 
-    const result = cells.map(cell => {
+    let result = cells.map(cell => {
         const current_load = cell.document_locations.reduce(
             (sum, location) => sum + location.quantity,
             0
@@ -35,7 +42,9 @@ export const getCellsService = async (query) => {
 
         const free_space = cell.max_capacity - current_load
 
-        const fill_percent = cell.max_capacity > 0 ? Math.round((current_load / cell.max_capacity) * 100) : 0
+        const fill_percent = cell.max_capacity > 0 
+            ? Math.round((current_load / cell.max_capacity) * 100)
+            : 0
 
         return {
             ...cell,
@@ -45,8 +54,29 @@ export const getCellsService = async (query) => {
         }
     })
 
+    if (sort === "fill_percent") {
+        result.sort((a, b) => order === "asc"
+            ? a.fill_percent - b.fill_percent
+            : b.fill_percent - a.fill_percent
+        )
+    }
+
+    if (sort === "free_space") {
+        result.sort((a, b) => order === "asc"
+            ? a.free_space - b.free_space
+            : b.free_space - a.free_space
+        )
+    }
+
+    if (sort === "code") {
+        result.sort((a, b) => order === "asc"
+            ? a.code.localeCompare(b.code)
+            : b.code.localeCompare(a.code)
+        )
+    }
+
     if (status) {
-        return result.filter(cell => {
+        result = result.filter(cell => {
             switch (status) {
                 case "empty":
                     return cell.current_load === 0
@@ -87,6 +117,8 @@ export const getCellByIdService = async (id) => {
 }
 
 export const createCellService = async (data) => {
+    console.log("shelf_id =", data.shelf_id)
+
     const shelf = await prisma.shelves.findUnique({
         where: {
             id: Number(data.shelf_id)

@@ -5,7 +5,7 @@ import { createLoanRequest } from "../../services/loanService.js"
 import api from "../../api/axios.js"
 
 export default function DocumentPage() {
-    const { id } = useParams()
+    const { id, rack_id, shelf_id, cell_id } = useParams()
     const [document, setDocument] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -131,7 +131,7 @@ export default function DocumentPage() {
                         {requestLoading ? "Отправка..." : "Подать заявку на выдачу"}
                     </button>
                 )}
-                <Link to="/documents" style={{ marginLeft: "10px" }}>
+                <Link to={`/racks/${rack_id}/shelves/${shelf_id}/cells/${cell_id}/documents`} style={{ marginLeft: "10px" }}>
                     К списку документов
                 </Link>
             </div>

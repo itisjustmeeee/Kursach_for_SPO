@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import DocumentCard from "../../components/docs/DocumentCard.jsx"
-import { fetchDocument } from "../../services/loanService.js"
+import { fetchCellDocuments } from "../../services/cellDocumentsService.js"
 
 export default function DocumentsPage() {
     const { cell_id } = useParams()
@@ -18,17 +18,18 @@ export default function DocumentsPage() {
     })
 
     useEffect(() => {
+        if (!cell_id) return
         const loadDocuments = async () => {
             try {
                 setLoading(true)
 
-                const data = await fetchDocument({
-                    cell_id,
+                const data = await fetchCellDocuments({
+                    cell_id: Number(cell_id),
                     search,
                     ...filters
                 })
 
-                setDocuments(data.documents)
+                setDocuments(data)
             } catch (err) {
                 setError(err?.response?.data?.message || "Ошибка загрузки документов")
             } finally {
@@ -82,8 +83,8 @@ export default function DocumentsPage() {
             />
 
             <div style={{ flex: 1 }}>
-                <Link to={`/cells/${cell_id}`}>
-                    к ячейке
+                <Link to={`/racks`}>
+                    к стеллажам
                 </Link>
 
                 <h1>
@@ -91,7 +92,7 @@ export default function DocumentsPage() {
                 </h1>
 
                 <p>
-                    Всего документов: {documents.length}
+                    Всего документов: {documents?.length || 0}
                 </p>
 
                 <SearchBar
@@ -111,13 +112,13 @@ export default function DocumentsPage() {
                     </p>
                 )}
 
-                {!loading && documents.length === 0 && (
+                {!loading && documents?.length === 0 && (
                     <p>
                         Документы не найдены
                     </p>
                 )}
 
-                {!loading && documents.length > 0 && (
+                {!loading && documents?.length > 0 && (
                     <div style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
@@ -127,7 +128,6 @@ export default function DocumentsPage() {
                             <DocumentCard
                                 key={document.id}
                                 document={document}
-                                cell_id={cell_id}
                             />
                         ))}
                     </div>

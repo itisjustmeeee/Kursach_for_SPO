@@ -9,6 +9,19 @@ import { validate } from '../middleware/validationMiddleware.js'
 const router = express.Router()
 
 /**
+ * @swagger:
+ * /api/loans:
+ *  get:
+ *      summary: Получить список выдач документов
+ *      tags: [Loans]
+ *      responses:
+ *          200:
+ *              description: Список выдач
+ */
+
+router.get('/', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('request_return_document'), getLoans)
+
+/**
  * @swagger
  * /api/loans/request:
  *  post:
@@ -46,40 +59,6 @@ const router = express.Router()
  */
 
 router.post('/request', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('issue_document'), validate(issueDocumentSchema), issueDocument)
-
-/**
- * @swagger:
- * /api/loans:
- *  get:
- *      summary: Получить список выдач документов
- *      tags: [Loans]
- *      responses:
- *          200:
- *              description: Список выдач
- */
-
-router.get('/', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('request_return_document'), getLoans)
-
-/**
- * @swagger
- * /api/loans/{id}:
- *  get:
- *      summary: Получить выдачу по ID
- *      tags: [Loans]
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            schema:
- *              type: integer
- *      responses:
- *          200:
- *              description: Выдача найдена
- *          404:
- *              description: Выдача не найдена
- */
-
-router.get('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('request_return_document'), getLoanById)
 
 /**
  * @swagger
@@ -299,6 +278,27 @@ router.get('/my', authMiddleware, roleMiddleware(['user', 'admin']), permissionM
  */
 
 router.get('/user/:user_id', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('request_return_document'), getUsersLoans)
+
+/**
+ * @swagger
+ * /api/loans/{id}:
+ *  get:
+ *      summary: Получить выдачу по ID
+ *      tags: [Loans]
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            schema:
+ *              type: integer
+ *      responses:
+ *          200:
+ *              description: Выдача найдена
+ *          404:
+ *              description: Выдача не найдена
+ */
+
+router.get('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('request_return_document'), getLoanById)
 
 /**
  * @swagger

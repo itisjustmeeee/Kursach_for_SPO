@@ -17,9 +17,11 @@ export default function Sidebar({ filters, setFilters, sortOptions = [], extraFi
                     onChange={handleChange}
                 >
                     {sortOptions.map(option => (
-                        <option>
+                        <option
                             key={option.value}
                             value={option.value}
+                        >
+                            {option.label}
                         </option>
                     ))}
                 </select>

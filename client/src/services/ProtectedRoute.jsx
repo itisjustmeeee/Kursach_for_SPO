@@ -8,7 +8,9 @@ export default function ProtectedRoute({children, roles = []}) {
         return <Navigate to="/login"/>
     }
 
-    if (roles.length > 0 && !roles.includes(user.role)) {
+    const userRoles = user.roles || []
+
+    if (roles.length > 0 && !roles.some(role => userRoles.includes(role))) {
         return <Navigate to="/"/>
     }
 

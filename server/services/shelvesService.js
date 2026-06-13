@@ -2,10 +2,22 @@ import { tr } from "zod/v4/locales"
 import prisma from "../config/prisma.js"
 
 export const getShelvesService = async (query) => {
-    const { rack_id } = query
+    const { rack_id, search, sort = "code", order = "asc" } = query
 
     return prisma.shelves.findMany({
-        where: rack_id ? { rack_id: Number(rack_id) } : {},
+        where: {
+            ...(rack_id && { rack_id: Number(rack_id) }),
+
+            ...(search && {
+                code: {
+                    contains: search,
+                    mode: "insensitive"
+                }
+            })
+        },
+        orderBy: {
+            [sort]: order
+        },
         include: {
             cells: true,
             racks: true

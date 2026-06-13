@@ -34,27 +34,6 @@ router.get('/', authMiddleware, roleMiddleware(['user', 'admin']), permissionMid
 
 /**
  * @swagger
- * /api/cells/{id}:
- *   get:
- *     summary: Получить ячейку по ID
- *     tags: [Cells]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Информация о ячейке
- *       404:
- *         description: Ячейка не найдена
- */
-
-router.get('/:id', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getCellById)
-
-/**
- * @swagger
  * /api/cells:
  *   post:
  *     summary: Создать ячейку
@@ -85,6 +64,27 @@ router.get('/:id', authMiddleware, roleMiddleware(['user', 'admin']), permission
  */
 
 router.post('/', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), createCell)
+
+/**
+ * @swagger
+ * /api/cells/{id}:
+ *   get:
+ *     summary: Получить ячейку по ID
+ *     tags: [Cells]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Информация о ячейке
+ *       404:
+ *         description: Ячейка не найдена
+ */
+
+router.get('/:id', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), getCellById)
 
 /**
  * @swagger

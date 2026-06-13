@@ -21,13 +21,13 @@ export const getArchiveStatsService = async () => {
         prisma.cells.count(),
         prisma.documents.count(),
 
-        getEmptyRacks(),
-        getEmptyShelves(),
-        getEmptyCells(),
+        getEmptyRacksService(),
+        getEmptyShelvesService(),
+        getEmptyCellsService(),
 
-        getMostLoadedCell(),
+        getMostLoadedCellService(),
 
-        getUnusedDocuments(180),
+        getUnusedDocumentsService(180),
 
         prisma.document_loans.count({
             where: {
@@ -58,16 +58,16 @@ export const getArchiveStatsService = async () => {
 
         totalDocuments: documentsCount,
 
-        totalCopies: copiesCount._sum.quantity || 0,
+        totalCopies: copiesCount?._sum?.quantity || 0,
 
-        emptyRacks: emptyRacks.length,
-        emptyShelves: emptyShelves.length,
-        emptyCells: emptyCells.length,
+        emptyRacks: emptyRacks?.length || 0,
+        emptyShelves: emptyShelves?.length || 0,
+        emptyCells: emptyCells?.length || 0,
 
         activeLoans,
         overdueLoans,
 
-        unusedDocumentsCount: unusedDocuments.length,
+        unusedDocumentsCount: unusedDocuments?.length || 0,
 
         mostLoadedCell
     }

@@ -12,7 +12,7 @@ export default function LoginPage() {
 
     const handleLogin = async (data) => {
         try {
-            const res = await api.post("/api/auth/login", data)
+            const res = await api.post("/auth/login", data)
 
             const { user, accessToken } = res.data
 

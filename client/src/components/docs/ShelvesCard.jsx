@@ -13,7 +13,7 @@ export default function ShelfCard({ shelf }) {
                 Ячеек: {shelf.cells?.length || 0}
             </p>
 
-            <Link to={`/shelves/${shelf.id}/cells`}>
+            <Link to={`/racks/${shelf.rack_id}/shelves/${shelf.id}/cells`}>
                 Открыть ячейки
             </Link>
         </div>

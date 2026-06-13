@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 
 export default function UserCard({ user }) {
     return (
@@ -20,9 +19,9 @@ export default function UserCard({ user }) {
             <p>
                 Почта: {" "}{user.email}
             </p>
-            <Link to={`/user/${user.id}`}>
-                Подробнее
-            </Link>
+            <p>
+                Отдел: {" "}{user.department}
+            </p>
         </div>
     )
 }

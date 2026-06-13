@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function DropDown ({ item }) {
+export default function DropDown({ item }) {
     return (
         <div>
             <button>
@@ -11,7 +11,6 @@ export default function DropDown ({ item }) {
                     <Link
                         key={sub.path}
                         to={sub.path}
-                        className=""
                     >
                         {sub.label}
                     </Link>

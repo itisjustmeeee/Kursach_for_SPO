@@ -1,16 +1,15 @@
-import { useEffect, useState, useCallback } from "react"
-import { Link, useSearchParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import ShelfCard from "../../components/docs/ShelvesCard.jsx"
 import StorageFormCard from "../../components/createComponent.jsx"
-import { fecthShelves, createShelf } from "../../services/ShelvesService.js"
+import { fetchShelves, createShelf } from "../../services/ShelvesService.js"
 import useAuth from "../../hooks/useAuth.js"
 
 export default function ShelvesPage() {
     const { user } = useAuth()
-    const [searchParams] = useSearchParams()
-    const rack_id = searchParams.get("rack")
+    const { rack_id } = useParams()
     const [shelves, setShelves] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -27,34 +26,29 @@ export default function ShelvesPage() {
 
     const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
 
-    
-    const loadData = useCallback(async () => {
-        try {
-            setLoading(true)
-
-            const data = await fecthShelves({
-                rack_id,
-                search,
-                ...filters
-            })
-
-            setShelves(data)
-        } catch (err) {
-            setError(
-                err.response?.data?.message || "Ошибка загрузки полок"
-            )
-        } finally {
-            setLoading(false)
-        }
-    }, [rack_id, search, filters])
-
     useEffect(() => {
-        const wrapper = async () => {
-            loadData()
+        const loadData = async () => {
+            try {
+                setLoading(true)
+
+                const data = await fetchShelves({
+                    rack_id,
+                    search,
+                    ...filters
+                })
+
+                setShelves(data)
+            } catch (err) {
+                setError(
+                    err.response?.data?.message || "Ошибка загрузки полок"
+                )
+            } finally {
+                setLoading(false)
+            }
         }
 
-        wrapper()
-    }, [loadData])
+        loadData()
+    }, [rack_id, search, filters])
 
     const handleChange = (name, value) => {
         setFormValues(prev => ({
@@ -77,7 +71,6 @@ export default function ShelvesPage() {
                 rack_id
             })
 
-            await loadData()
         } catch (err) {
             alert(
                 err.response?.data?.message || "Ошибка создания полки"

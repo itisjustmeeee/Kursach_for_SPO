@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState } from "react"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import RacksCard from "../../components/docs/RacksCard.jsx"
@@ -20,33 +20,29 @@ export default function RacksPage() {
         code: ""
     })
     const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
-    
-    const loadRacks = useCallback(async () => {
-        try {
-            setLoading(true)
-
-            const data = await fetchRacks({
-                search,
-                ...filters
-            })
-
-            setRacks(data)
-        } catch (err) {
-            setError(
-                err.response?.data?.message || "Ошибка загрузки стеллажей"
-            )
-        } finally {
-            setLoading(false)
-        }
-    }, [search, filters])
 
     useEffect(() => {
-        const wrapper = async () => {
-            loadRacks()
+         const loadRacks = async () => {
+            try {
+                setLoading(true)
+
+                const data = await fetchRacks({
+                    search,
+                    ...filters
+                })
+
+                setRacks(data)
+            } catch (err) {
+                setError(
+                    err.response?.data?.message || "Ошибка загрузки стеллажей"
+                )
+            } finally {
+                setLoading(false)
+            }
         }
 
-        wrapper()
-    }, [loadRacks])
+        loadRacks()
+    }, [search, filters])
 
     const handleRackChange = (name, value) => {
         setNewRack(prev => ({
@@ -65,7 +61,6 @@ export default function RacksPage() {
                 code: ""
             })
 
-            await loadRacks()
         } catch (err) {
             alert(
                 err?.response?.data?.message || "Ошибка создания стеллажа"

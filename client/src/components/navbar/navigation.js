@@ -16,12 +16,12 @@ export const baseNavigation = [
     },
     {
         label: 'История',
-        path: '/loans/history',
+        path: '/loans/loan-history',
         roles: [ROLES.ADMIN, ROLES.USER]
     },
     {
         label: 'Активные',
-        path: '/loans/active',
+        path: '/loans/loan-active',
         roles: [ROLES.ADMIN, ROLES.USER]
     }
 ]
@@ -52,7 +52,7 @@ export const adminNavigation = [
     },
     {
         label: 'Заявки',
-        path: '/admin/applications',
+        path: '/admin/loans/loan-requests',
         roles: [ROLES.ADMIN]
     }
 ]

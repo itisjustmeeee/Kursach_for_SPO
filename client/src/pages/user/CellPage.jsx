@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SearchBar from '../../components/bars/SearchBar.jsx'
 import Sidebar from '../../components/bars/Sidebar.jsx'
@@ -26,34 +26,29 @@ export default function CellsPage() {
     })
     const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
 
-    
-    const loadCells = useCallback(async () => {
-        try {
-            setLoading(true)
-
-            const data = await fetchCells({
-                shelf_id,
-                search,
-                ...filters
-            })
-
-            setCells(data)
-        } catch (err) {
-            setError(
-                err.response?.data?.message || "Ошибка загрузки ячеек"
-            )
-        } finally {
-            setLoading(false)
-        }
-    }, [shelf_id, search, filters])
-
     useEffect(() => {
-        const wrapper = async () => {
-            loadCells()
+        const loadCells = async () => {
+            try {
+                setLoading(true)
+
+                const data = await fetchCells({
+                    shelf_id,
+                    search,
+                    ...filters
+                })
+
+                setCells(data)
+            } catch (err) {
+                setError(
+                    err.response?.data?.message || "Ошибка загрузки ячеек"
+                )
+            } finally {
+                setLoading(false)
+            }
         }
 
-        wrapper()
-    }, [loadCells])
+        loadCells()
+    }, [shelf_id, search, filters])
 
     const handleChange = (name, value) => {
         setFormValues(prev => ({
@@ -77,7 +72,6 @@ export default function CellsPage() {
                 max_capacity: ""
             })
 
-            await loadCells()
         } catch (err) {
             alert(
                 err.response?.data?.message || "Ошибка создания ячейки"
@@ -129,9 +123,6 @@ export default function CellsPage() {
                                 Пустые
                             </option>
                             <option value="filled">
-                                Заполненные
-                            </option>
-                            <option value="avaliable">
                                 Есть место
                             </option>
                             <option value="full">
@@ -144,6 +135,9 @@ export default function CellsPage() {
             <div style={{ flex: 1 }}>
                 <Link to={`/racks/${rack_id}/shelves`}>
                     К полкам
+                </Link>
+                <Link to={`/racks`}>
+                    К стеллажам
                 </Link>
                 <h1>
                     Ячейки

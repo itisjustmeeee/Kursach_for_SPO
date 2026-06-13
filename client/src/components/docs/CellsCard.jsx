@@ -2,9 +2,6 @@ import { Link } from "react-router-dom"
 
 export default function CellCard({ cell }) {
 
-    const rackId = cell?.shelves?.racks?.id
-    const shelfId = cell?.shelves?.id
-
     return (
         <div className="cellCard">
             <h3>Ячейка {cell.code}</h3>
@@ -18,19 +15,9 @@ export default function CellCard({ cell }) {
             <p>Заполнение: {cell.fill_percent}%</p>
 
             <div className="actions">
-                <Link to={`/cells/${cell.id}/documents`}>
+                <Link to={`/shelves/${cell.shelf_id}/cells/${cell.id}/documents`}>
                     Документы
                 </Link>
-                {shelfId && (
-                    <Link to={`/shelves/${shelfId}`}>
-                        К полке
-                    </Link>
-                )}
-                {rackId && (
-                    <Link to={`/racks/${rackId}`}>
-                        К стеллажу
-                    </Link>
-                )}
             </div>
         </div>
     )

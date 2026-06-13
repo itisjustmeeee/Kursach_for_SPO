@@ -22,7 +22,7 @@ export const getRackById = async (req, res, next) => {
 
 export const createRack = async (req, res, next) => {
     try {
-        const rack = await createRackService(req.params.id, req.body)
+        const rack = await createRackService(req.body)
 
         res.json(rack)
     } catch (err) {

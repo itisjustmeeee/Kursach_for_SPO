@@ -21,6 +21,8 @@ export const getShelfById = async (req, res, next) => {
 
 export const createShelf = async (req, res, next) => {
     try {
+        console.log(req.body)
+
         const shelf = await createShelfService(req.body)
 
         res.status(201).json(shelf)

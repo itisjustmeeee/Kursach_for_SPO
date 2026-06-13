@@ -10,7 +10,7 @@ export default function RegisterPage() {
 
     const handleRegister = async (data) => {
         try {
-            await api.post("/api/auth/register", data)
+            await api.post("/auth/register", data)
 
             navigate("/login")
         } catch (err) {

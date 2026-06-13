@@ -23,15 +23,15 @@ export default function DocumentsStatsPage() {
 
             if (filters.unusedMonths) {
                 data = await fetchUnusedDocuments(filters.unusedMonths)
+                setDocuments(Array.isArray(data) ? data.data : [])
             } else {
                 data = await fetchDocuments({
                     search,
-                    sort: filters.sort,
-                    order: filters.order
+                    ...filters
                 })
             }
             
-            setDocuments(data)
+            setDocuments(data.documents || [])
         } catch (err) {
             console.error(err)
         } finally {
