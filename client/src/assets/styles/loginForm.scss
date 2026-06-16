@@ -1,0 +1,180 @@
+.login-form-card {
+    width: 100%;
+    max-width: 450px;
+
+    margin: 40px auto;
+
+    padding: 32px;
+
+    background: white;
+    border-radius: 20px;
+
+    border: 1px solid #e5e7ed;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.login-form-card__title {
+    text-align: center;
+
+    margin-bottom: 24px;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+.login-form-card__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 16px;
+}
+
+.login-form-card__form input {
+    width: 93%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #2a1ce4;
+    border-radius: 10px;
+
+    color: black;
+
+    background: #8183ef68;
+
+    font-size: 1rem;
+
+    transition: all 0.2s ease;
+
+    &:focus {
+        outline: none;
+
+        border-color: #241abd;
+
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+}
+
+.login-form-card__button {
+    margin-top: 10px;
+
+    width: 200px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2a1ce4;
+    color: white;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #241abd;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.login-form-card__error {
+    margin-top: 16px;
+
+    text-align: center;
+
+    color: #dc2626;
+
+    font-weight: 500;
+}
+
+.login-page {
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    background: #ffffff;
+}
+
+.login-page__wrapper {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    width: 100%;
+    max-width: 500px;
+}
+
+.login-page__register-card {
+    width: 103%;
+    max-width: 465px;
+    background: white;
+
+    padding: 24px;
+
+    border-radius: 16px;
+
+    text-align: center;
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.login-page__register-card__title {
+    margin-bottom: 10px;
+
+    color: #1f2937;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.login-page__register-card__text {
+    margin-bottom: 18px;
+
+    color: #1f2937;
+
+    line-height: 1.5;
+}
+
+.login-page__register-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    background: #2a1ce4;
+    color: white;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #241abd;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+

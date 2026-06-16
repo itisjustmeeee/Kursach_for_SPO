@@ -1,4 +1,5 @@
 import { useState } from "react"
+import "../../assets/styles/registerForm.scss"
 
 const departments = [
     "administration",
@@ -61,9 +62,11 @@ export default function RegisterForm({ onSubmit, error }) {
     }
 
     return (
-        <div>
-            <h2>Регистрация</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="register-card">
+            <h2 className="register-card__title">
+                Регистрация
+            </h2>
+            <form onSubmit={handleSubmit} className="register-card__form">
                 <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required/>
                 <input type="email" name="email" placeholder="email" value={formData.email} onChange={handleChange} required/>
                 <input type="text" name="first_name" placeholder="Имя" value={formData.first_name} onChange={handleChange} required/>
@@ -83,12 +86,12 @@ export default function RegisterForm({ onSubmit, error }) {
                 </select>
                 <input type="password" name="password" placeholder="Пароль" value={formData.password} onChange={handleChange} required/>
                 <input type="password" name="confirmPassword" placeholder="Повторите пароль" value={formData.confirmPassword} onChange={handleChange} required/>
-                <button type="submit">
+                <button type="submit" className="register-card__button">
                     Зарегистрироваться
                 </button>
             </form>
             {(validationError || error) && (
-                <p>
+                <p className="register-card__error">
                     {validationError || error}
                 </p>
             )}

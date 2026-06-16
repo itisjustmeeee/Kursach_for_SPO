@@ -1,19 +1,28 @@
 import { Link } from "react-router-dom"
+import "../../assets/styles/shelfCard.scss"
 
 export default function ShelfCard({ shelf }) {
     return (
-        <div>
-            <h3>Полка {shelf.code}</h3>
+        <div className="shelf-card">
+            <div className="shelf-card__content">
+                <h3 className="shelf-card__title">
+                    Полка {shelf.code}
+                </h3>
 
-            <p>
-                Стеллаж: {shelf.racks?.code}
-            </p>
+                <div className="shelf-card__info">
+                    <p>
+                        <span>
+                            Стеллаж: {shelf.racks?.code}
+                        </span>
+                    </p>
 
-            <p>
-                Ячеек: {shelf.cells?.length || 0}
-            </p>
+                    <p>
+                        Ячеек: {shelf.cells?.length || 0}
+                    </p>
+                </div>
+            </div>
 
-            <Link to={`/racks/${shelf.rack_id}/shelves/${shelf.id}/cells`}>
+            <Link className="shelf-card__button" to={`/racks/${shelf.rack_id}/shelves/${shelf.id}/cells`}>
                 Открыть ячейки
             </Link>
         </div>

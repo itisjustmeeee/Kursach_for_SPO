@@ -1,3 +1,5 @@
+import "../../assets/styles/SideBar.scss"
+
 export default function Sidebar({ filters, setFilters, sortOptions = [], extraFilters = null }) {
     const handleChange = (e) => {
         setFilters(prev => ({
@@ -7,11 +9,16 @@ export default function Sidebar({ filters, setFilters, sortOptions = [], extraFi
     }
 
     return (
-        <aside>
-            <h3>Фильтры</h3>
-            <div>
-                <label>Сортировка</label>
+        <aside className="sidebar">
+            <h3 className="sidebar__title">
+                Фильтры
+            </h3>
+            <div className="sidebar__group">
+                <label className="sidebar__label">
+                    Сортировка
+                </label>
                 <select
+                    className="sidebar__select"
                     name="sort"
                     value={filters.sort}
                     onChange={handleChange}
@@ -26,11 +33,12 @@ export default function Sidebar({ filters, setFilters, sortOptions = [], extraFi
                     ))}
                 </select>
             </div>
-            <div>
-                <label>
+            <div className="sidebar__group">
+                <label className="sidebar__label">
                     Порядок
                 </label>
                 <select
+                    className="sidebar__select"
                     name="order"
                     value={filters.order}
                     onChange={handleChange}
@@ -43,8 +51,12 @@ export default function Sidebar({ filters, setFilters, sortOptions = [], extraFi
                     </option>
                 </select>
             </div>
-
-            {extraFilters}
+            <div className="sidebar__extra">
+                <h4 className="sidebar__extra-title">
+                    Дополнительно
+                </h4>
+                    {extraFilters}
+            </div>
         </aside>
     )
 }

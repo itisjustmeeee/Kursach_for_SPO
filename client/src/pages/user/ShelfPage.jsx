@@ -6,6 +6,7 @@ import ShelfCard from "../../components/docs/ShelvesCard.jsx"
 import StorageFormCard from "../../components/createComponent.jsx"
 import { fetchShelves, createShelf } from "../../services/ShelvesService.js"
 import useAuth from "../../hooks/useAuth.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function ShelvesPage() {
     const { user } = useAuth()
@@ -85,10 +86,7 @@ export default function ShelvesPage() {
     }
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -100,18 +98,18 @@ export default function ShelvesPage() {
                 ]}
             />
 
-            <div style={{ flex: 1 }}>
-                <h1>
+            <div className="page-content">
+                <h1 className="page-header">
                     Полки
                 </h1>
 
-                <Link to="/racks">
+                <Link className="back-button" to="/racks">
                     К стеллажам
                 </Link>
 
-                <p>
+                <span className="page-header__counter">
                     Всего полок: {shelves.length}
-                </p>
+                </span>
 
                 <SearchBar
                     placeholder="Поиск полки..."
@@ -135,9 +133,9 @@ export default function ShelvesPage() {
                 )}
 
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -147,11 +145,7 @@ export default function ShelvesPage() {
                 )}
 
                 {!loading && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-                        gap: "16px"
-                    }}>
+                    <div className="cards-grid">
                         {shelves.map(shelf => (
                             <ShelfCard
                                 key={shelf.id}

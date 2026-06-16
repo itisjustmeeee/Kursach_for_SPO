@@ -6,6 +6,7 @@ import CellCard from '../../components/docs/CellsCard.jsx'
 import StorageFormCard from '../../components/createComponent.jsx'
 import { fetchCells, createCell } from '../../services/CellService.js'
 import useAuth from '../../hooks/useAuth.js'
+import "../../assets/styles/PagesStyle.scss"
 
 export default function CellsPage() {
     const { user } = useAuth()
@@ -86,10 +87,7 @@ export default function CellsPage() {
     }
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className='page'>
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -138,19 +136,21 @@ export default function CellsPage() {
                     </div>
                 }
             />
-            <div style={{ flex: 1 }}>
-                <Link to={`/racks/${rack_id}/shelves`}>
-                    К полкам
-                </Link>
-                <Link to={`/racks`}>
-                    К стеллажам
-                </Link>
-                <h1>
+            <div className="page-content">
+                <h1 className="page-header">
                     Ячейки
                 </h1>
-                <p>
+                <div className='back-button__multiple'>
+                    <Link className="back-button" to={`/racks/${rack_id}/shelves`}>
+                        К полкам
+                    </Link>
+                    <Link className="back-button" to={`/racks`}>
+                        К стеллажам
+                    </Link>
+                </div>
+                <span className="page-header__counter">
                     Всего ячеек: {cells.length}
-                </p>
+                </span>
                 <SearchBar
                     placeholder='Поиск ячейки...'
                     onSearch={setSearch}
@@ -178,9 +178,9 @@ export default function CellsPage() {
                 )}
 
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -190,11 +190,7 @@ export default function CellsPage() {
                 )}
 
                 {!loading && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                        gap: "20px"
-                    }}>
+                    <div className="cards-grid">
                         {cells.map(cell => (
                             <CellCard
                                 key={cell.id}

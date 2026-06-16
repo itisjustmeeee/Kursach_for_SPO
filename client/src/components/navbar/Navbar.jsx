@@ -3,6 +3,7 @@ import useAuth from '../../hooks/useAuth.js'
 import { adminNavigation, baseNavigation, ROLES } from './navigation.js'
 import DropDown from "../../services/DropDown.jsx"
 import ProfileMenu from "../../services/ProfileMenu.jsx"
+import "../../assets/styles/navBar.scss"
 
 export default function Navbar() {
     const { user } = useAuth()
@@ -33,41 +34,46 @@ export default function Navbar() {
     })
 
     return (
-        <nav>
-            <Link to="/">
-                Simple Archive
-            </Link>
-            <div>
-                {navigationItems.map(item => (
-                    item.dropdown ? (
-                        <DropDown
-                            key={item.label}
-                            item={item}
-                        />
+        <nav className="navbar">
+            <div className="navbar__container">
+                <Link to="/" className="navbar__logo">
+                    Simple Archive
+                </Link>
+                <div className="navbar__links">
+                    {navigationItems.map(item => (
+                        item.dropdown ? (
+                            <DropDown
+                                key={item.label}
+                                item={item}
+                            />
+                        ) : (
+                            <NavLink
+                                key={item.path}
+                                to={item.path}
+                                className={({ isActive }) => isActive 
+                                    ? "navbar__link navbar__link--active" 
+                                    : "navbar__link"
+                                }
+                            >
+                                {item.label}
+                            </NavLink>
+                        )
+                    ))}
+                </div>
+                <div className="navbar__profile">
+                    {!user ? (
+                        <div className="navbar_auth">
+                            <Link to="/login">
+                                Вход
+                            </Link>
+                            <Link to="/register">
+                                Регистрация
+                            </Link>
+                        </div>
                     ) : (
-                        <NavLink
-                            key={item.path}
-                            to={item.path}
-                            className={({ isActive }) => isActive ? '' : ''}
-                        >
-                            {item.label}
-                        </NavLink>
-                    )
-                ))}
-            </div>
-            <div>
-                {!user ? (
-                    <div>
-                        <Link to="/login">
-                            Вход
-                        </Link>
-                        <Link to="/register">
-                            Регистрация
-                        </Link>
-                    </div>
-                ) : (
-                    <ProfileMenu />
-                )}
+                        <ProfileMenu />
+                    )}
+                </div>
             </div>
         </nav>
     )

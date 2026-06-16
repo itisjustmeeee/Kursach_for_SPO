@@ -1,0 +1,176 @@
+.register-card {
+    width: 100%;
+    max-width: 500px;
+
+    margin: 40px auto;
+
+    padding: 32px;
+
+    background: #ffffff;
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.register-card__title {
+    text-align: center;
+
+    margin-bottom: 24px;
+
+    color: #1f2937;
+
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.register-card__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.register-card__form input,
+.register-card__form select {
+    width: 93%;
+
+    padding: 12px 16px;
+
+    border: 1px solid #2a1ce4;
+    border-radius: 10px;
+
+    color: black;
+
+    background: #8183ef68;
+
+    font-size: 1rem;
+
+    transition: all 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: #241abd;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+}
+
+.register-card__button {
+    margin-top: 10px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2f24d0;
+    color: white;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #1d10d6;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.register-card__error {
+    margin-top: 16px;
+
+    text-align: center;
+
+    color: #dc2626;
+
+    font-weight: 500;
+}
+
+.register-page {
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    background: #ffffff;
+}
+
+.register-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    width: 100%;
+    max-width: 500px;
+}
+
+.login-card {
+    width: 103%;
+    max-width: 515px;
+    background: white;
+
+    padding: 24px;
+
+    border-radius: 16px;
+
+    text-align: center;
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.login-card__title {
+    margin-bottom: 10px;
+
+    color: #1f2937;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.login-card__text {
+    margin-bottom: 18px;
+
+    color: #1f2937;
+
+    line-height: 1.5;
+}
+
+.login-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    background: #2a1ce4;
+    color: white;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #241abd;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}

@@ -5,6 +5,7 @@ import RacksCard from "../../components/docs/RacksCard.jsx"
 import StorageFormCard from "../../components/createComponent.jsx"
 import { fetchRacks, createRack } from "../../services/RacksService.js"
 import useAuth from "../../hooks/useAuth.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function RacksPage() {
     const { user } = useAuth()
@@ -75,10 +76,7 @@ export default function RacksPage() {
     }
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -90,13 +88,14 @@ export default function RacksPage() {
                 ]}
             />
 
-            <div style={{ flex: 1 }}>
-                <h1>Стеллажи</h1>
+            <div className="page-content">
+                <h1 className="page-header">
+                    Стеллажи
+                </h1>
 
-                <p>
+                <span className="page-header__counter">
                     Всего стеллажей: {racks.length}
-                </p>
-
+                </span>
                 <SearchBar
                     placeholder="Поиск стеллажа..."
                     onSearch={setSearch}
@@ -117,11 +116,10 @@ export default function RacksPage() {
                         submitText="Создать"
                     />
                 )}
-
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -131,11 +129,7 @@ export default function RacksPage() {
                 )}
 
                 {!loading && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-                        gap: "16px"
-                    }}>
+                    <div className="cards-grid">
                         {racks.map(rack => (
                             <RacksCard
                                 key={rack.id}

@@ -1,41 +1,55 @@
 $primary-color: #2a1ce4;
 $font-stack: 'Audiowide', 'Bahnschrift', Arial, sans-serif;
 
-nav {
-    font: 50% $font-stack
-}
+.home {
+    min-height: calc(100vh - 80px);
 
-.site_name {
-    margin-left: 0;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.links_to_pages {
     display: flex;
-    gap: 15px;
-}
-
-.register_link {
-    margin-right: 0;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.profile {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
-    background-color: #374151;
-    padding: 6px 12px;
-    border-radius: 999px;
-    cursor: pointer;
+
+    background: #ffffff;
+
+    padding: 40px;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid white;
+.home__content {
+    text-align: center;
+    max-width: 800px;
+}
+
+.home__title {
+    margin-bottom: 20px;
+
+    font-size: 4rem;
+    font-weight: 800;
+    color: $primary-color;
+    letter-spacing: -2px;
+}
+
+.home__subtitle {
+    font-size: 1.4rem;
+    font-weight: 400;
+
+    color: $primary-color;
+    line-height: 1.6;
+}
+
+.home__link {
+    display: inline-block;
+
+    color: #306def;
+    text-decoration: underline;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: #0a64ebbe;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
 }

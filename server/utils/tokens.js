@@ -5,7 +5,7 @@ export const generateAccessToken = (user, permissions) => {
         {
             id: user.id,
             permissions,
-            roles: user.user_roles.map(r => r.roles.name)
+            roles: user.user_roles?.map(r => r.roles.name) || []
         },
         process.env.JWT_SECRET,
         {
@@ -19,7 +19,7 @@ export const generateRefreshToken = (user, permissions) => {
         {
             id: user.id,
             permissions,
-            roles: user.user_roles.map(r => r.roles.name)
+            roles: user.user_roles?.map(r => r.roles.name) || []
         },
         process.env.REFRESH_SECRET,
         {

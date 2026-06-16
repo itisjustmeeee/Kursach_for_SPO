@@ -130,15 +130,59 @@ export const register = async (req, res, next) => {
             }
         })
 
-        const accessToken = generateAccessToken(user)
-        const refreshToken = generateRefreshToken(user)
+        const userWithRoles = await prisma.users.findUnique({
+            where: { id: user.id },
+            include: {
+                user_roles: {
+                    include: {
+                        roles: {
+                            include: {
+                                role_permissions: {
+                                    include: {
+                                        permissions: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        const permissions = [
+            ...new Set(
+                userWithRoles.user_roles.flatMap(ur =>
+                    ur.roles.role_permissions.map(
+                        rp => rp.permissions.name
+                    )
+                )
+            )
+        ]
+
+        const accessToken = generateAccessToken(userWithRoles, permissions)
+        const refreshToken = generateRefreshToken(userWithRoles, permissions)
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true
         })
 
+        const roles = userWithRoles.user_roles.map(
+            ur => ur.roles.name
+        )
+
         return res.status(201).json({ message: 'User registered',
-            accessToken
+            accessToken,
+            user : {
+                id: userWithRoles.id,
+                username: userWithRoles.username,
+                email: userWithRoles.email,
+                first_name: userWithRoles.first_name,
+                last_name: userWithRoles.last_name,
+                middle_name: userWithRoles.middle_name,
+                phone: userWithRoles.phone,
+                department: userWithRoles.department,
+                roles
+            }
         })
     } catch (err) {
         next(err)

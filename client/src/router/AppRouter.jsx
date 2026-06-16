@@ -26,7 +26,7 @@ export default function AppRouter() {
             <Routes>
                 <Route element={<AuthLayout />}>
                     <Route
-                        path="/Login"
+                        path="/login"
                         element={<LoginPage />}
                     />
                     <Route

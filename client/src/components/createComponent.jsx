@@ -1,20 +1,17 @@
+import "../assets/styles/StorageFormCard.scss"
+
 export default function StorageFormCard({title, fields, values, onChange, onSubmit, submitText = "Создать"}) {
     return (
-        <div style={{
-            padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            marginBottom: "20px"
-        }}>
-            <h3>{title}</h3>
+        <div className="storage-form-card">
+            <h3 className="storage-form-card__title">
+                {title}
+            </h3>
 
-            <form onSubmit={onSubmit}>
+            <form className="storage-form-card__form" onSubmit={onSubmit}>
                 {fields.map(field => (
                     <div
                         key={field.name}
-                        style={{
-                            marginBottom: "10px"
-                        }}
+                        className="storage-form-card__field"
                     >
                         <label>{field.label}</label>
 
@@ -25,7 +22,7 @@ export default function StorageFormCard({title, fields, values, onChange, onSubm
                         />
                     </div>
                 ))}
-                <button type="submit">
+                <button className="storage-form-card__button" type="submit">
                     {submitText}
                 </button>
             </form>

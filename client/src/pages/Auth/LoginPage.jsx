@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import useAuth from "../../hooks/useAuth.js"
 import api from "../../api/axios.js"
 import LoginForm from "../../components/auth/LoginForm.jsx"
+import "../../assets/styles/loginForm.scss"
 
 export default function LoginPage() {
     const { login } = useAuth()
@@ -24,16 +25,21 @@ export default function LoginPage() {
     }
 
     return (
-        <main>
-            <div>
+        <main className="login-page">
+            <div className="login-page__wrapper">
                 <LoginForm onSubmit={handleLogin} error={error}/>
 
-                <p style={{ textAlign: "center" }}>
-                    Еще нет аккаунта?{" "}
-                    <Link to="/register">
+                <div className="login-page__register-card">
+                    <h3 className="login-page__register-card__title">
+                        Еще нет аккаунта?{" "}
+                    </h3>
+                    <p className="login-page__register-card__text">
+                        Зарегистрируйтесь, чтобы продолжить работу с архивом
+                    </p>
+                    <Link to="/register" className="login-page__register-card__button">
                         Зарегистрироваться
                     </Link>
-                </p>
+                </div>
             </div>
         </main>
     )

@@ -1,35 +1,23 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import "../assets/styles/dropDown.scss"
 
 export default function DropDown({ item }) {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <div style={{ position: "relative" }}>
-            <button onClick={() => setIsOpen(prev => !prev)}>
+        <div className="dropdown">
+            <button className="dropdown__button" onClick={() => setIsOpen(prev => !prev)}>
                 {item.label}
             </button>
             {isOpen && (
-                <div style={{
-                    position: "absolute",
-                    top: "100%",
-                    left: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    border: "1px solid #ccc",
-                    padding: "8px",
-                    minWidth: "200px",
-                    zIndex: 1000
-                }}>
+                <div className="dropdown__menu">
                     {item.dropdown.map(sub => (
                         <Link
                             key={sub.path}
                             to={sub.path}
                             onClick={() => setIsOpen(false)}
-                            style={{
-                                padding: "6px 0",
-                                textDecoration: "none"
-                            }}
+                            className="dropdown__link"
                         >
                             {sub.label}
                         </Link>
