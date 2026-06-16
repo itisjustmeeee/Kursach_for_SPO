@@ -8,7 +8,7 @@ export const getCellDocumentsService = async (query) => {
 
     const parsedCellId = Number(cell_id)
 
-    if (!parsedCellId || isNaN(parsedCellId)) {
+    if (isNaN(parsedCellId)) {
         throw new Error("Некорректный cell_id")
     }
 
@@ -48,8 +48,8 @@ export const getCellDocumentsService = async (query) => {
 
     if (sort === "inventory_number") {
         result.sort((a, b) => order === "asc"
-            ? a.documents.inventory_number - b.documents.inventory_number
-            : b.documents.inventory_number - a.documents.inventory_number
+            ? a.documents.inventory_number.localeCompare(b.documents.inventory_number)
+            : b.documents.inventory_number.localeCompare(a.documents.inventory_number)
         )
     }
 

@@ -1,7 +1,7 @@
 import api from "../api/axios.js"
 
-export const fetchPendingLoans = async () => {
-    const response = await api.get('/loans/pending')
+export const fetchPendingLoans = async (params = {}) => {
+    const response = await api.get('/loans/pending', { params })
 
     return response.data
 }

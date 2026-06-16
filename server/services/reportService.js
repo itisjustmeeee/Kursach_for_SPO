@@ -38,7 +38,7 @@ export const getUsersBySubjectService = async (subject) => {
 }
 
 export const getMostLoadedCellService = async () => {
-    return await prisma.document_locations.groupBy({
+    const result = await prisma.document_locations.groupBy({
         by: ['cell_id'],
         _sum: {
             quantity: true
@@ -50,6 +50,25 @@ export const getMostLoadedCellService = async () => {
         },
         take: 1
     })
+
+    if (!result.length) return null
+
+    const cellId = result[0].cell_id
+    const used = result[0]._sum.quantity || 0
+
+    const cell = await prisma.cells.findUnique({
+        where: { id: cellId }
+    })
+
+    if (!cell) return null
+
+    const fill_percent = Math.round((used / cell.max_capacity) * 100)
+
+    return {
+        cell_id: cellId,
+        code: cell.code,
+        fill_percent
+    }
 }
 
 export const getLastBorrowerService = async (document_id) => {

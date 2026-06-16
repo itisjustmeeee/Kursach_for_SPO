@@ -10,15 +10,30 @@ export const login = async (req, res, next) => {
 
         const user = await prisma.users.findUnique({
             where: { email },
-
             include: {
                 user_roles: {
                     include: {
-                        roles: true
+                        roles: {
+                            include: {
+                                role_permissions: {
+                                    include: {
+                                        permissions: true
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         })
+
+        const permissions = [
+            ...new Set(
+                user.user_roles.flatMap(ur =>
+                    ur.roles.role_permissions.map(rp => rp.permissions.name)
+                )
+            )
+        ]
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
@@ -30,8 +45,8 @@ export const login = async (req, res, next) => {
             return res.status(401).json({ message: 'Invalid password' })
         }
 
-        const accessToken = generateAccessToken(user)
-        const refreshToken = generateRefreshToken(user)
+        const accessToken = generateAccessToken(user, permissions)
+        const refreshToken = generateRefreshToken(user, permissions)
 
         await createAuditLogService({
             user_id: user.id,
@@ -45,7 +60,7 @@ export const login = async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
@@ -118,7 +133,7 @@ export const register = async (req, res, next) => {
         const accessToken = generateAccessToken(user)
         const refreshToken = generateRefreshToken(user)
 
-        res.cookies('refreshToken', refreshToken, {
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true
         })
 
@@ -132,7 +147,7 @@ export const register = async (req, res, next) => {
 
 export const refresh = async (req, res) => {
     try {
-        const refreshToken = req.cookie.refreshToken
+        const refreshToken = req.cookies?.refreshToken
 
         if (!refreshToken) {
             return res.status(401).json({
@@ -149,8 +164,31 @@ export const refresh = async (req, res) => {
         const user = await prisma.users.findUnique({
             where: {
                 id: decoded.id
+            },
+            include: {
+                user_roles: {
+                    include: {
+                        roles: {
+                            include: {
+                                role_permissions: {
+                                    include: {
+                                        permissions: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         })
+
+        const permissions = [
+            ...new Set(
+                user.user_roles.flatMap(ur =>
+                    ur.roles.role_permissions.map(rp => rp.permissions.name)
+                )
+            )
+        ]        
 
         if (!user) {
             return res.status(404).json({
@@ -158,7 +196,7 @@ export const refresh = async (req, res) => {
             })
         }
 
-        const accessToken = generateAccessToken(user)
+        const accessToken = generateAccessToken(user, permissions)
 
         return res.json({
             accessToken

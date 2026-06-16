@@ -223,11 +223,11 @@ export type Document_loansGroupByOutputType = {
   id: number
   user_id: number
   document_id: number
-  issued_by: number
+  issued_by: number | null
   quantity: number
   status: string
   issued_at: Date
-  due_date: Date
+  due_date: Date | null
   returned_at: Date | null
   _count: Document_loansCountAggregateOutputType | null
   _avg: Document_loansAvgAggregateOutputType | null
@@ -258,11 +258,11 @@ export type document_loansWhereInput = {
   id?: Prisma.IntFilter<"document_loans"> | number
   user_id?: Prisma.IntFilter<"document_loans"> | number
   document_id?: Prisma.IntFilter<"document_loans"> | number
-  issued_by?: Prisma.IntFilter<"document_loans"> | number
+  issued_by?: Prisma.IntNullableFilter<"document_loans"> | number | null
   quantity?: Prisma.IntFilter<"document_loans"> | number
   status?: Prisma.StringFilter<"document_loans"> | string
   issued_at?: Prisma.DateTimeFilter<"document_loans"> | Date | string
-  due_date?: Prisma.DateTimeFilter<"document_loans"> | Date | string
+  due_date?: Prisma.DateTimeNullableFilter<"document_loans"> | Date | string | null
   returned_at?: Prisma.DateTimeNullableFilter<"document_loans"> | Date | string | null
   documents?: Prisma.XOR<Prisma.DocumentsScalarRelationFilter, Prisma.documentsWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
@@ -272,11 +272,11 @@ export type document_loansOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   document_id?: Prisma.SortOrder
-  issued_by?: Prisma.SortOrder
+  issued_by?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   status?: Prisma.SortOrder
   issued_at?: Prisma.SortOrder
-  due_date?: Prisma.SortOrder
+  due_date?: Prisma.SortOrderInput | Prisma.SortOrder
   returned_at?: Prisma.SortOrderInput | Prisma.SortOrder
   documents?: Prisma.documentsOrderByWithRelationInput
   users?: Prisma.usersOrderByWithRelationInput
@@ -289,11 +289,11 @@ export type document_loansWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.document_loansWhereInput | Prisma.document_loansWhereInput[]
   user_id?: Prisma.IntFilter<"document_loans"> | number
   document_id?: Prisma.IntFilter<"document_loans"> | number
-  issued_by?: Prisma.IntFilter<"document_loans"> | number
+  issued_by?: Prisma.IntNullableFilter<"document_loans"> | number | null
   quantity?: Prisma.IntFilter<"document_loans"> | number
   status?: Prisma.StringFilter<"document_loans"> | string
   issued_at?: Prisma.DateTimeFilter<"document_loans"> | Date | string
-  due_date?: Prisma.DateTimeFilter<"document_loans"> | Date | string
+  due_date?: Prisma.DateTimeNullableFilter<"document_loans"> | Date | string | null
   returned_at?: Prisma.DateTimeNullableFilter<"document_loans"> | Date | string | null
   documents?: Prisma.XOR<Prisma.DocumentsScalarRelationFilter, Prisma.documentsWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
@@ -303,11 +303,11 @@ export type document_loansOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   document_id?: Prisma.SortOrder
-  issued_by?: Prisma.SortOrder
+  issued_by?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   status?: Prisma.SortOrder
   issued_at?: Prisma.SortOrder
-  due_date?: Prisma.SortOrder
+  due_date?: Prisma.SortOrderInput | Prisma.SortOrder
   returned_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.document_loansCountOrderByAggregateInput
   _avg?: Prisma.document_loansAvgOrderByAggregateInput
@@ -323,20 +323,20 @@ export type document_loansScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"document_loans"> | number
   user_id?: Prisma.IntWithAggregatesFilter<"document_loans"> | number
   document_id?: Prisma.IntWithAggregatesFilter<"document_loans"> | number
-  issued_by?: Prisma.IntWithAggregatesFilter<"document_loans"> | number
+  issued_by?: Prisma.IntNullableWithAggregatesFilter<"document_loans"> | number | null
   quantity?: Prisma.IntWithAggregatesFilter<"document_loans"> | number
   status?: Prisma.StringWithAggregatesFilter<"document_loans"> | string
   issued_at?: Prisma.DateTimeWithAggregatesFilter<"document_loans"> | Date | string
-  due_date?: Prisma.DateTimeWithAggregatesFilter<"document_loans"> | Date | string
+  due_date?: Prisma.DateTimeNullableWithAggregatesFilter<"document_loans"> | Date | string | null
   returned_at?: Prisma.DateTimeNullableWithAggregatesFilter<"document_loans"> | Date | string | null
 }
 
 export type document_loansCreateInput = {
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
   documents: Prisma.documentsCreateNestedOneWithoutDocument_loansInput
   users: Prisma.usersCreateNestedOneWithoutDocument_loansInput
@@ -346,20 +346,20 @@ export type document_loansUncheckedCreateInput = {
   id?: number
   user_id: number
   document_id: number
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
 }
 
 export type document_loansUpdateInput = {
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.documentsUpdateOneRequiredWithoutDocument_loansNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutDocument_loansNestedInput
@@ -369,11 +369,11 @@ export type document_loansUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   document_id?: Prisma.IntFieldUpdateOperationsInput | number
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -381,20 +381,20 @@ export type document_loansCreateManyInput = {
   id?: number
   user_id: number
   document_id: number
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
 }
 
 export type document_loansUpdateManyMutationInput = {
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -402,11 +402,11 @@ export type document_loansUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
   document_id?: Prisma.IntFieldUpdateOperationsInput | number
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -561,11 +561,11 @@ export type document_loansUncheckedUpdateManyWithoutUsersNestedInput = {
 }
 
 export type document_loansCreateWithoutDocumentsInput = {
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
   users: Prisma.usersCreateNestedOneWithoutDocument_loansInput
 }
@@ -573,11 +573,11 @@ export type document_loansCreateWithoutDocumentsInput = {
 export type document_loansUncheckedCreateWithoutDocumentsInput = {
   id?: number
   user_id: number
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
 }
 
@@ -614,20 +614,20 @@ export type document_loansScalarWhereInput = {
   id?: Prisma.IntFilter<"document_loans"> | number
   user_id?: Prisma.IntFilter<"document_loans"> | number
   document_id?: Prisma.IntFilter<"document_loans"> | number
-  issued_by?: Prisma.IntFilter<"document_loans"> | number
+  issued_by?: Prisma.IntNullableFilter<"document_loans"> | number | null
   quantity?: Prisma.IntFilter<"document_loans"> | number
   status?: Prisma.StringFilter<"document_loans"> | string
   issued_at?: Prisma.DateTimeFilter<"document_loans"> | Date | string
-  due_date?: Prisma.DateTimeFilter<"document_loans"> | Date | string
+  due_date?: Prisma.DateTimeNullableFilter<"document_loans"> | Date | string | null
   returned_at?: Prisma.DateTimeNullableFilter<"document_loans"> | Date | string | null
 }
 
 export type document_loansCreateWithoutUsersInput = {
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
   documents: Prisma.documentsCreateNestedOneWithoutDocument_loansInput
 }
@@ -635,11 +635,11 @@ export type document_loansCreateWithoutUsersInput = {
 export type document_loansUncheckedCreateWithoutUsersInput = {
   id?: number
   document_id: number
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
 }
 
@@ -672,20 +672,20 @@ export type document_loansUpdateManyWithWhereWithoutUsersInput = {
 export type document_loansCreateManyDocumentsInput = {
   id?: number
   user_id: number
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
 }
 
 export type document_loansUpdateWithoutDocumentsInput = {
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   users?: Prisma.usersUpdateOneRequiredWithoutDocument_loansNestedInput
 }
@@ -693,42 +693,42 @@ export type document_loansUpdateWithoutDocumentsInput = {
 export type document_loansUncheckedUpdateWithoutDocumentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type document_loansUncheckedUpdateManyWithoutDocumentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type document_loansCreateManyUsersInput = {
   id?: number
   document_id: number
-  issued_by: number
+  issued_by?: number | null
   quantity: number
   status: string
   issued_at?: Date | string
-  due_date: Date | string
+  due_date?: Date | string | null
   returned_at?: Date | string | null
 }
 
 export type document_loansUpdateWithoutUsersInput = {
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   documents?: Prisma.documentsUpdateOneRequiredWithoutDocument_loansNestedInput
 }
@@ -736,22 +736,22 @@ export type document_loansUpdateWithoutUsersInput = {
 export type document_loansUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   document_id?: Prisma.IntFieldUpdateOperationsInput | number
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type document_loansUncheckedUpdateManyWithoutUsersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   document_id?: Prisma.IntFieldUpdateOperationsInput | number
-  issued_by?: Prisma.IntFieldUpdateOperationsInput | number
+  issued_by?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   issued_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  due_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  due_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   returned_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -835,11 +835,11 @@ export type $document_loansPayload<ExtArgs extends runtime.Types.Extensions.Inte
     id: number
     user_id: number
     document_id: number
-    issued_by: number
+    issued_by: number | null
     quantity: number
     status: string
     issued_at: Date
-    due_date: Date
+    due_date: Date | null
     returned_at: Date | null
   }, ExtArgs["result"]["document_loans"]>
   composites: {}

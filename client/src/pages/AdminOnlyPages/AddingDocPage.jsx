@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DocumentCreateCard from "../../components/createDocumentCard.jsx"
-import { createDocument, uploadDocumentFile, createDocumentLoaction } from "../../services/addDocumentService.js"
+import { createDocument, uploadDocumentFile, createDocumentLocation } from "../../services/addDocumentService.js"
 import { fetchCells } from "../../services/CellService.js"
 
 export default function CreateDocumentPage() {
@@ -55,15 +55,25 @@ export default function CreateDocumentPage() {
                 quantity_total: Number(values.quantity_total)
             })
 
-            await createDocumentLoaction({
+            console.log(createdDocument)
+
+            console.log({
                 document_id: createdDocument.id,
                 cell_id: Number(values.cell_id),
                 quantity: Number(values.quantity_total)
             })
 
+            await createDocumentLocation({
+                document_id: createdDocument.document.id,
+                cell_id: Number(values.cell_id),
+                quantity: Number(values.quantity_total)
+            })
+
+            const documentId = createdDocument.document.id
+
             if (selectedFile) {
                 await uploadDocumentFile(
-                    createdDocument.id,
+                    documentId,
                     selectedFile
                 )
             }

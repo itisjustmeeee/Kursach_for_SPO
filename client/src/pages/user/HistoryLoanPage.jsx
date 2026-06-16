@@ -126,13 +126,13 @@ export default function HistoryLoansPage() {
                         gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
                         gap: "16px"
                     }}>
-                        {loans.map(loan => {
+                        {loans.map(loan => (
                             <LoanCard
                                 key={loan.id}
                                 loan={loan}
                                 showReturnedDate
                             />
-                        })}
+                        ))}
                     </div>
                 )}
             </div>

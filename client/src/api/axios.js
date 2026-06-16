@@ -15,4 +15,36 @@ api.interceptors.request.use((config) => {
     return config
 })
 
+api.interceptors.response.use(
+    (res) => res,
+    async (error) => {
+        const original = error.config
+
+        if (error.response?.status === 401 && !original._retry) {
+            original._retry = true
+
+            try {
+                const res = await axios.get(
+                    'http://localhost:5000/api/auth/refresh',
+                    { withCredentials: true }
+                )
+
+                const newToken = res.data.accessToken
+
+                localStorage.setItem("token", newToken)
+
+                original.headers.Authorization = `Bearer ${newToken}`
+
+                return api(original)
+            } catch (err) {
+                console.log(err)
+                localStorage.removeItem("token")
+                window.location.href = "login"
+            }
+        }
+
+        return Promise.reject(error)
+    }
+)
+
 export default api

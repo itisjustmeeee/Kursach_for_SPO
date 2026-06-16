@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SearchBar from '../../components/bars/SearchBar.jsx'
 import Sidebar from '../../components/bars/Sidebar.jsx'
@@ -26,29 +26,33 @@ export default function CellsPage() {
     })
     const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
 
+    const loadCells = useCallback(async () => {
+        try {
+            setLoading(true)
+
+            const data = await fetchCells({
+                shelf_id,
+                search,
+                ...filters
+            })
+
+            setCells(data)
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Ошибка загрузки ячеек"
+            )
+        } finally {
+            setLoading(false)
+        }
+    }, [shelf_id, search, filters])
+
     useEffect(() => {
-        const loadCells = async () => {
-            try {
-                setLoading(true)
-
-                const data = await fetchCells({
-                    shelf_id,
-                    search,
-                    ...filters
-                })
-
-                setCells(data)
-            } catch (err) {
-                setError(
-                    err.response?.data?.message || "Ошибка загрузки ячеек"
-                )
-            } finally {
-                setLoading(false)
-            }
+        const wrapper = async () => {
+            loadCells()
         }
 
-        loadCells()
-    }, [shelf_id, search, filters])
+        wrapper()
+    }, [loadCells])
 
     const handleChange = (name, value) => {
         setFormValues(prev => ({
@@ -72,6 +76,8 @@ export default function CellsPage() {
                 max_capacity: ""
             })
 
+
+            await loadCells()
         } catch (err) {
             alert(
                 err.response?.data?.message || "Ошибка создания ячейки"

@@ -1,38 +1,42 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Link, useParams } from "react-router-dom"
 import { fetchDocumentsById } from "../../services/getDocService.js"
 import { createLoanRequest } from "../../services/loanService.js"
 import api from "../../api/axios.js"
 
 export default function DocumentPage() {
-    const { id, rack_id, shelf_id, cell_id } = useParams()
+    const { id, shelf_id, cell_id } = useParams()
     const [document, setDocument] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [requestLoading, setRequestLoading] = useState(false)
     const [canDownload, setCanDownload] = useState(false)
 
+    const loadDocument = useCallback(async () => {
+        try {
+            setLoading(true)
+
+            const data = await fetchDocumentsById(id)
+            setDocument(data)
+
+            const access = await api.get(`/documents/${id}/access`)
+            setCanDownload(access.data.canDownload)
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Ошибка загрузки документа"
+            )
+        } finally {
+            setLoading(false)
+        }
+    }, [id])
+
     useEffect(() => {
-        const loadDocument = async () => {
-            try {
-                setLoading(true)
-
-                const data = await fetchDocumentsById(id)
-                setDocument(data)
-
-                const access = await api.get(`/api/documents/${id}/access`)
-                setCanDownload(access.data.canDownload)
-            } catch (err) {
-                setError(
-                    err.response?.data?.message || "Ошибка загрузки документа"
-                )
-            } finally {
-                setLoading(false)
-            }
+        const wrapper = async () => {
+            loadDocument()
         }
 
-        loadDocument()
-    }, [id])
+        wrapper()
+    }, [loadDocument])
 
     const handleRequest = async () => {
         try {
@@ -42,7 +46,7 @@ export default function DocumentPage() {
 
             alert("Заявка отправлена. Дождитесь одобрения")
 
-            const access = await api.get(`/api/documents/${id}/access`)
+            const access = await api.get(`/documents/${id}/access`)
             setCanDownload(access.data.canDownload)
         } catch (err) {
             alert(err.response?.data?.message || "Ошибка подачи заявки")
@@ -58,7 +62,7 @@ export default function DocumentPage() {
     return (
         <div style={{ padding: "20px" }}>
 
-            <h1>{document.title}</h1>
+            <h2>{document.title}</h2>
             <p>Инвентарный номер: {document.inventory_number}</p>
             <p>Тема: {document.subject}</p>
             <p>Количество: {document.quantity_total}</p>
@@ -71,7 +75,7 @@ export default function DocumentPage() {
             <div style={{
                 marginTop: "20px",
                 padding: "10px",
-                boder: "1px solid #ccc",
+                border: "1px solid #ccc",
                 borderRadius: "8px"
             }}>
                 <h3>Содержимое документа</h3>
@@ -80,18 +84,18 @@ export default function DocumentPage() {
                     <>
                         {document.mime_type?.includes("pdf") ? (
                             <iframe
-                                src={canDownload? document.file_path : ""}
+                                src={`http://localhost:5000${document.file_path}`}
                                 title={document.title}
                                 width="100%"
                                 height="600"
                                 style={{
-                                    boder: "1px solid #ccc",
+                                    border: "1px solid #ccc",
                                     borderRadius: "8px"
-                                }} 
+                                }}
                             />
                         ) : document.mime_type?.startsWith("image/") ? (
                             <img
-                                src={canDownload ? document.file_path : ""}
+                                src={`http://localhost:5000${document.file_path}`}
                                 alt={document.title}
                                 style={{
                                     maxWidth: "100%",
@@ -104,17 +108,26 @@ export default function DocumentPage() {
                                 <p>
                                     Предпросмотр недоступен для данного типа файла
                                 </p>
-                                {canDownload && <p>Файл: {document.file_name}</p>}
+                                <p>
+                                    Файл: {document.file_name}
+                                </p>
                             </div>
                         )}
 
-                        <div>
+                        <div style={{ marginTop: "10px" }}>
                             {canDownload ? (
-                                <a href={document.file_path} target="_blank" rel="noreferrer">
-                                    скачать
+                                <a
+                                    href={`http://localhost:5000${document.file_path}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    download
+                                >
+                                    Скачать документ
                                 </a>
                             ) : (
-                                <p style={{ color: "red" }}>Скачивание доступно только после одобрения заявки</p>
+                                <p style={{ color: "red" }}>
+                                    Скачивание доступно только после одобрения заявки
+                                </p>
                             )}
                         </div>
                     </>
@@ -131,7 +144,7 @@ export default function DocumentPage() {
                         {requestLoading ? "Отправка..." : "Подать заявку на выдачу"}
                     </button>
                 )}
-                <Link to={`/racks/${rack_id}/shelves/${shelf_id}/cells/${cell_id}/documents`} style={{ marginLeft: "10px" }}>
+                <Link to={`/shelves/${shelf_id}/cells/${cell_id}/documents`} style={{ marginLeft: "10px" }}>
                     К списку документов
                 </Link>
             </div>

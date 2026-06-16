@@ -23,15 +23,16 @@ export default function DocumentsStatsPage() {
 
             if (filters.unusedMonths) {
                 data = await fetchUnusedDocuments(filters.unusedMonths)
-                setDocuments(Array.isArray(data) ? data.data : [])
+                setDocuments(Array.isArray(data) ? data : [])
             } else {
                 data = await fetchDocuments({
                     search,
                     ...filters
                 })
+
+                setDocuments(data.documents || [])
             }
             
-            setDocuments(data.documents || [])
         } catch (err) {
             console.error(err)
         } finally {
@@ -47,13 +48,6 @@ export default function DocumentsStatsPage() {
         }
 
         loadPage()
-    }, [loadDocuments])
-
-    useEffect(() => {
-        const wrapper = async () => {
-            await loadDocuments()
-        }
-        wrapper()
     }, [loadDocuments])
 
     const handleDelete = async (id) => {
@@ -77,6 +71,24 @@ export default function DocumentsStatsPage() {
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
+                sortOptions={[
+                    {
+                        value: "title",
+                        label: "По названию"
+                    },
+                    {
+                        value: "subject",
+                        label: "По теме"
+                    },
+                    {
+                        value: "inventory_number",
+                        label: "По инвентарному номеру"
+                    },
+                    {
+                        value: "created_at",
+                        label: "По дате"
+                    }
+                ]}
                 extraFilters={
                     <div>
                         <label>

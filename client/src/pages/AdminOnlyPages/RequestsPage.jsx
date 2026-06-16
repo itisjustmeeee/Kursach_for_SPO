@@ -66,14 +66,20 @@ export default function LoanRequestPage() {
         const text = search.toLowerCase()
 
         return (
-            loan.documents.title.toLowerCase().includes(text) || loan.users.last_name.toLowerCase().includes(text)
+            loan.documents?.title?.toLowerCase().includes(text) || 
+            loan.users?.last_name?.toLowerCase().includes(text) ||
+            loan.users?.first_name?.toLowerCase().includes(text) ||
+            loan.users?.username?.toLowerCase().includes(text)
         )
     }).sort((a, b) => {
-        if (filters.order === "asc") {
-            return new Date(a.issued_at) - new Date(b.issued_at)
+        switch (filters.sort) {
+            case "issued_at":
+                return filters.order === "asc" 
+                    ? new Date(a.issued_at) - new Date(b.issued_at)
+                    : new Date(b.issued_at) - new Date(a.issued_at)
+            default:
+                return 0
         }
-
-        return new Date(b.issued_at) - new Date(a.issued_at)
     })
 
     return (

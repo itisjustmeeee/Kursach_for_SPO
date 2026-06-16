@@ -11,7 +11,7 @@ export default function UserCard({ user }) {
             </h3>
 
             <p>
-                ФИО: {" "}{user.last_name}{" "}{user.first_name}{" "}{user.middle_name}
+                ФИО: {" "}{user.last_name}{" "}{user.first_name}{" "}{user.middle_name || ""}
             </p>
             <p>
                 Телефон: {" "}{user.phone}

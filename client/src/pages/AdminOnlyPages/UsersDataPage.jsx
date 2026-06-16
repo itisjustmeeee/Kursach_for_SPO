@@ -23,7 +23,7 @@ export default function UsersDataPage() {
                 ])
 
                 setStats(statsData)
-                setUsers(usersData)
+                setUsers(usersData?.users || usersData || [])
             } finally {
                 setLoading(false)
             }
@@ -48,10 +48,11 @@ export default function UsersDataPage() {
                 gap: "16px",
                 marginBottom: "30px"
             }}>
-                <StatsCard
-                    title="Всего пользователей"
-                    value={stats.totalUsers}
-                />
+                {stats && (
+                    <>
+                        <StatsCard title="Всего пользователей" value={stats.totalUsers} />
+                    </>
+                )}
                 <StatsCard
                     title="Активных пользователей"
                     value={stats.usersWithActiveLoans}
@@ -66,7 +67,10 @@ export default function UsersDataPage() {
                 />
                 <StatsCard
                     title="Самый активный пользователь"
-                    value={stats.mostActiveUser}
+                    value={stats.mostActiveUser
+                        ? `${stats.mostActiveUser.first_name} ${stats.mostActiveUser.last_name}`
+                        : "-"
+                    }
                 />
             </div>
 

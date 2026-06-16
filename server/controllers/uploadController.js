@@ -1,10 +1,15 @@
 import { success } from "zod"
 import prisma from "../config/prisma.js"
 import { createAuditLogService } from "../services/auditService.js"
+import { optimizePdf } from "../services/pdfService.js"
 
 export const uploadDocumentFile = async (req, res, next) => {
     try {
         const { id } = req.params
+
+        if (!req.file) {
+            return res.status(400).json({ message: "file not uploaded" })
+        }
 
         const document = await prisma.documents.findUnique({
             where: {
@@ -24,13 +29,20 @@ export const uploadDocumentFile = async (req, res, next) => {
             })
         }
 
+        const inputPath = req.file.path
+
+        const outputFileName = `optimized-${req.file.filename}`
+        const outputPath = path.join("uploads", outputFileName)
+
+        await optimizePdf(inputPath, outputPath)
+
         const updated = await prisma.documents.update({
             where: {
                 id: Number(id)
             },
             data: {
-                file_path: req.file.path,
-                file_name: req.file.filename,
+                file_path: `/uploads/${outputFileName}`,
+                file_name: outputFileName,
                 mime_type: req.file.mimetype
             }
         })

@@ -3,12 +3,14 @@ import prisma from "../config/prisma.js"
 export const getRacksService = async (query) => {
     const { search, page = 1, limit = 20, sort = "code", order = "asc" } = query
 
+    const sortOrder = order === "desc" ? "desc" : "asc"
+
     return prisma.racks.findMany({
         where: search ? { code: { contains: search, mode: 'insensitive' } } : {},
         skip: (page - 1) * limit,
         take: Number(limit),
         orderBy: {
-            [sort]: order
+            [sort]: sortOrder
         },
         include: {
             shelves: true

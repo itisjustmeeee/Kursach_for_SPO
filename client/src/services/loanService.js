@@ -16,7 +16,8 @@ export const returnLoan = async (loan_id) => {
 
 export const createLoanRequest = async (document_id) => {
     const response = await api.post('/loans/request', {
-        document_id
+        document_id,
+        quantity: 1
     })
 
     return response.data

@@ -23,71 +23,6 @@ router.get('/', authMiddleware, roleMiddleware(['admin']), permissionMiddleware(
 
 /**
  * @swagger
- * /api/loans/request:
- *  post:
- *      summary: Issue document
- *      tags: [Loans]
- * 
- *      security:
- *          - bearerAuth: []
- * 
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          user_id:
- *                              type: integer
- *                          document_id:
- *                              type: integer
- *                          quantity:
- *                              type: integer
- *                          due_date:
- *                              type: string
- *                              format: date-time
- *      responses:
- *          201:
- *              description: document issued
- *          400:
- *              description: validation error
- *          403:
- *              description: forbidden
- *          500:
- *              description: Server error
- */
-
-router.post('/request', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('issue_document'), validate(issueDocumentSchema), issueDocument)
-
-/**
- * @swagger
- * /api/loans/active:
- *  get:
- *      summary: Получить активные выдачи
- *      tags: [Loans]
- *      responses:
- *          200:
- *              description: список активных документов
- */
-
-router.get('/active', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('request_return_document'), getActiveLoans)
-
-/**
- * @swagger
- * /api/loans/overdue:
- *  get:
- *      summary: Получить просроченные выдачи
- *      tags: [Loans]
- *      responses:
- *          200:
- *              description: список просроченых документов
- */
-
-router.get('/overdue', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('request_return_document'), getOverdueLoans)
-
-/**
- * @swagger
  * /api/loans/pending:
  *  get:
  *      summary: Получить все заявки на выдачу документов в статусе "pending"
@@ -130,6 +65,66 @@ router.get('/overdue', authMiddleware, roleMiddleware(['user', 'admin']), permis
  */
 
 router.get('/pending', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('request_return_document'), getPendingLoans)
+
+/**
+ * @swagger
+ * /api/loans/request:
+ *  post:
+ *      summary: Issue document
+ *      tags: [Loans]
+ * 
+ *      security:
+ *          - bearerAuth: []
+ * 
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          user_id:
+ *                              type: integer
+ *                          document_id:
+ *                              type: integer
+ *      responses:
+ *          201:
+ *              description: document issued
+ *          400:
+ *              description: validation error
+ *          403:
+ *              description: forbidden
+ *          500:
+ *              description: Server error
+ */
+
+router.post('/request', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('view_document'), validate(issueDocumentSchema), issueDocument)
+
+/**
+ * @swagger
+ * /api/loans/active:
+ *  get:
+ *      summary: Получить активные выдачи
+ *      tags: [Loans]
+ *      responses:
+ *          200:
+ *              description: список активных документов
+ */
+
+router.get('/active', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('request_return_document'), getActiveLoans)
+
+/**
+ * @swagger
+ * /api/loans/overdue:
+ *  get:
+ *      summary: Получить просроченные выдачи
+ *      tags: [Loans]
+ *      responses:
+ *          200:
+ *              description: список просроченых документов
+ */
+
+router.get('/overdue', authMiddleware, roleMiddleware(['user', 'admin']), permissionMiddleware('request_return_document'), getOverdueLoans)
 
 /**
  * @swagger

@@ -3,7 +3,9 @@ import { createAuditLogService } from "../services/auditService.js"
 
 export const issueDocument = async (req, res, next) => {
     try {
-        const loan = await issueDocumentService({...req.validatedData, issued_by: req.user.id})
+        console.log(req.user)
+
+        const loan = await issueDocumentService({...req.validatedData, user_id: req.user.id})
 
         await createAuditLogService({
             user_id: req.user.id,
@@ -24,19 +26,30 @@ export const issueDocument = async (req, res, next) => {
 
 export const returnDocument = async (req, res, next) => {
     try {
-        const loan = await returnDocumentsService(req.params.id)
+
+        const loan = await getLoanService(req.params.id)
+
+        const isAdmin = req.user.roles?.includes("admin")
+
+        if (loan.user_id !== req.user.id && !isAdmin) {
+            return res.status(403).json({
+                message: "Forbidden"
+            })
+        }
+
+        const returnedLoan = await returnDocumentsService(req.params.id)
 
         await createAuditLogService({
             user_id: req.user.id,
             action: 'RETURN_DOCUMENT',
             entity: 'LOAN',
-            entity_id: loan.id
+            entity_id: returnedLoan.id
         })
 
         return res.json({
             success: true,
             message: 'Document returned',
-            loan
+            returnedLoan
         })
     } catch (err) {
         next (err)
@@ -45,7 +58,7 @@ export const returnDocument = async (req, res, next) => {
 
 export const getLoans = async (req, res, next) => {
     try {
-        const loans = await getLoanService()
+        const loans = await getLoansService()
 
         await createAuditLogService({
             user_id: req.user.id,
@@ -126,7 +139,7 @@ export const rejectLoan = async (req, res, next) => {
 
 export const getActiveLoans = async (req, res, next) => {
     try {
-        const loans = await getActiveLoansService()
+        const loans = await getActiveLoansService(req.query)
 
         res.json(loans)
     } catch (err) {
@@ -176,10 +189,22 @@ export const getHistoryLoans = async (req, res, next) => {
 
 export const getMyLoans = async (req, res, next) => {
     try {
-        const loans = getMyLoansService(req.user.id)
+        const loans = await getMyLoansService(req.user.id)
 
         res.json(loans)
     } catch (err) {
         next(err)
     }
+}
+
+export const getDocumentAccess = async (req, res) => {
+    const loan = await prisma.document_loans.findFirst({
+        where: {
+            document_id: Number(req.params.id),
+            user_id: req.user.id,
+            status: "issued"
+        }
+    })
+
+    res.json({ canDownload: !!loan })
 }

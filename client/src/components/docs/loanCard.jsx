@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
 
 export default function LoanCard({ loan, onReturn, showReturnButton = false, showReturnedDate = false }) {
-    const overDue = loan.status === "issued" && !loan.returned_at && new Date(loan.due_date) < new Date()
+    console.log("LOAN =", loan)
+    const overDue = loan.status === "issued" && !loan.returned_at && new Date(loan.due_date) < new Date()    
+    const location = loan.documents.document_locations?.[0]
 
     return (
         <div>
@@ -40,9 +42,15 @@ export default function LoanCard({ loan, onReturn, showReturnButton = false, sho
                 gap: "10px",
                 marginTop: "10px"
             }}>
-                <Link to={`/documents/${loan.document_id}`}>
-                    Документ
-                </Link>
+                {location ? (
+                    <Link
+                        to={`/shelves/${location.cells.shelf_id}/cells/${location.cell_id}/documents/${loan.document_id}`}
+                    >
+                        Документ
+                    </Link>
+                ) : (
+                    <span>Местоположение не найдено</span>
+                )}
                 {showReturnButton && (
                     <button
                         onClick={() => onReturn?.(loan.id)}

@@ -15,9 +15,7 @@ export default function LoginPage() {
             const res = await api.post("/auth/login", data)
 
             const { user, accessToken } = res.data
-
-            localStorage.setItem("token", accessToken)
-            login(user)
+            login(user, accessToken)
 
             navigate("/")
         } catch (err) {

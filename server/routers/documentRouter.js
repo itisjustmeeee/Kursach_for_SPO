@@ -288,7 +288,7 @@ router.delete('/:id', authMiddleware, roleMiddleware(['admin']), permissionMiddl
  *              description: Документ не найден
  */
 
-router.get('/:id/access', authMiddleware, roleMiddleware(['admin']), permissionMiddleware('view_document'), checkDocumentAccess)
+router.get('/:id/access', authMiddleware, roleMiddleware(['user','admin']), permissionMiddleware('view_document'), checkDocumentAccess)
 
 /**
  * @swagger

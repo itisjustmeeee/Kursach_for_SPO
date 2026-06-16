@@ -5,7 +5,7 @@ export default function LoanRequestCard({loan, onApprove, onReject}) {
             padding: "16px",
             borderRadius: "8px"
         }}>
-            <h3>{loan.document.title}</h3>
+            <h3>{loan.documents.title}</h3>
 
             <p>
                 Пользователь: {" "}{loan.users.last_name}{" "}{loan.users.first_name}{" "}{loan.users.middle_name}
@@ -14,7 +14,7 @@ export default function LoanRequestCard({loan, onApprove, onReject}) {
                 Количество: {" "}{loan.quantity}
             </p>
             <p>
-                До: {" "}{new Date(loan.due_date).toLocaleDateString()}
+                До: {" "}{loan.due_date ? new Date(loan.due_date).toLocaleDateString() : "Не назначена"}
             </p>
             <p>
                 Подана: {" "}{new Date(loan.issued_at).toLocaleDateString()}

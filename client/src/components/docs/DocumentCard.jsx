@@ -1,27 +1,30 @@
 import { Link } from "react-router-dom"
 
 export default function DocumentCard({ document }) {
+    const doc = document.documents
+    const cell = document.cells
+
     return (
         <div>
-            <h2>{document.title}</h2>
+            <h2>{doc.title}</h2>
 
             <p>
-                Инвентарный номер: {document.inventory_number}
+                Инвентарный номер: {doc.inventory_number}
             </p>
 
             <p>
-                Тема: {document.subject}
+                Тема: {doc.subject}
             </p>
 
             <p>
-                Всего экземпляров: {document.quantity_total}
+                Всего экземпляров: {doc.quantity_total}
             </p>
 
             <p>
-                Дата поступления: {new Date(document.created_at).toLocaleDateString("ru-RU")}
+                Дата поступления: {new Date(doc.created_at).toLocaleDateString("ru-RU")}
             </p>
 
-            <Link to={`/documents/${document.id}`}>
+            <Link to={`/shelves/${cell.shelf_id}/cells/${cell.id}/documents/${doc.id}`}>
                 Подробнее
             </Link>
         </div>

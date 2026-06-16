@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
 
 export default function DocsAdminCard({ document, onDelete }) {
+    const location = document.document_locations?.[0]
+
     return (
         <div style={{
             border: "1px solid #ddd",
@@ -23,7 +25,9 @@ export default function DocsAdminCard({ document, onDelete }) {
                 gap: "10px",
                 marginTop: "10px"
             }}>
-                <Link to={`documents/${document.id}`}>
+                <Link to={ location 
+                    ? `/shelves/${location.cells.shelf_id}/cells/${location.cell_id}/documents/${document.id}`
+                    : "#"}>
                     Подробнее
                 </Link>
                 <button onClick={() => onDelete(document.id)}>

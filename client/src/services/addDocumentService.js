@@ -16,7 +16,7 @@ export const uploadDocumentFile = async (document_id, file) => {
     return response.data
 }
 
-export const createDocumentLoaction = async (data) => {
+export const createDocumentLocation = async (data) => {
     const response = await api.post("/locations", data)
 
     return response.data

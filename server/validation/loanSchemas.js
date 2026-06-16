@@ -1,12 +1,8 @@
 import { z } from 'zod'
 
 export const issueDocumentSchema = z.object({
-    user_id:
-        z.coerce.number(),
     document_id:
-        z.coerce.number(),
+        z.coerce.number().int().positive(),
     quantity:
-        z.coerce.number().positive(),
-    due_date:
-        z.string()
+        z.coerce.number().positive()
 })

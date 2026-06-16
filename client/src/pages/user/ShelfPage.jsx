@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Link, useParams } from "react-router-dom"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
@@ -26,29 +26,33 @@ export default function ShelvesPage() {
 
     const isAdmin = user?.role === "admin" || user?.roles?.includes("admin")
 
+    const loadData = useCallback(async () => {
+        try {
+            setLoading(true)
+
+            const data = await fetchShelves({
+                rack_id,
+                search,
+                ...filters
+            })
+
+            setShelves(data)
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Ошибка загрузки полок"
+            )
+        } finally {
+            setLoading(false)
+        }
+    }, [rack_id, search, filters])
+
     useEffect(() => {
-        const loadData = async () => {
-            try {
-                setLoading(true)
-
-                const data = await fetchShelves({
-                    rack_id,
-                    search,
-                    ...filters
-                })
-
-                setShelves(data)
-            } catch (err) {
-                setError(
-                    err.response?.data?.message || "Ошибка загрузки полок"
-                )
-            } finally {
-                setLoading(false)
-            }
+        const wrapper = async () => {
+            loadData()
         }
 
-        loadData()
-    }, [rack_id, search, filters])
+        wrapper()
+    }, [loadData])
 
     const handleChange = (name, value) => {
         setFormValues(prev => ({
@@ -71,6 +75,8 @@ export default function ShelvesPage() {
                 rack_id
             })
 
+
+            await loadData()
         } catch (err) {
             alert(
                 err.response?.data?.message || "Ошибка создания полки"

@@ -14,9 +14,7 @@ export const updateDocumentLocation = async (req, res, next) => {
         })
 
         if (!existing) {
-            throw new Error({
-                message: 'document does not exist'
-            })
+            throw new Error('document does not exist')
         }
 
         const updatedLocation = await prisma.document_locations.update({
@@ -79,9 +77,7 @@ export const createDocumentLocation = async (req, res, next) => {
         const currentStored = stored._sum.quantity || 0
 
         if (currentStored + Number(quantity) > documentExist.quantity_total) {
-            throw new Error({
-                message: 'quantity exceeds total amount'
-            })
+            throw new Error('quantity exceeds total amount')
         }
 
         const cellLoad = await prisma.document_locations.aggregate({
@@ -93,12 +89,10 @@ export const createDocumentLocation = async (req, res, next) => {
             }
         })
 
-        currentCellLoad = cellLoad._sum.quantity || 0
+        const currentCellLoad = cellLoad._sum.quantity || 0
 
         if (currentCellLoad + Number(quantity) > cellExist.max_capacity) {
-            throw new Error({
-                message: 'cell capacity exceeded'
-            })
+            throw new Error('cell capacity exceeded')
         }       
 
         const location = await prisma.document_locations.create({
