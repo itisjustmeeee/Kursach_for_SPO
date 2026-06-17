@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "../../assets/styles/SearchBar.scss"
+import "../../assets/styles/bars/SearchBar.scss"
 
 export default function SearchBar({ onSearch, placeholder = "Поиск..." }) {
     const [search, setSearch] = useState("")

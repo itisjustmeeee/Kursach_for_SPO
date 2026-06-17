@@ -1,4 +1,4 @@
-import "../../assets/styles/SideBar.scss"
+import "../../assets/styles/bars/SideBar.scss"
 
 export default function Sidebar({ filters, setFilters, sortOptions = [], extraFilters = null }) {
     const handleChange = (e) => {

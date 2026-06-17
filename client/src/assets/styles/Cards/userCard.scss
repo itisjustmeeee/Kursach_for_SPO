@@ -1,0 +1,72 @@
+.user-card {
+    width: 100%;
+    max-width: 320px;
+
+    padding: 24px;
+
+    background: white;
+
+    border: 1px solid #e5e7ed;
+    border-radius: 18px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 12px 24px rgba(0, 0, 0, 0.04);
+
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 20px 40px rgba(0, 0, 0, 0.06);
+    }
+}
+
+.user-card__header {
+    display: flex;
+    justify-content: center;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.user-card__name {
+    margin: 0 0 4px;
+    
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.user-card__department {
+    display: inline-block;
+
+    padding: 4px 10px;
+
+    background: #6c89e883;
+
+    border-radius: 18px;
+
+    color: #111827;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.user-card__info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    p {
+        margin: 0;
+
+        color: #374151;
+        line-height: 1.5;
+    }
+
+    strong {
+        color: #111827;
+    }
+}

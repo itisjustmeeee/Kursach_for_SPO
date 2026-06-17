@@ -1,0 +1,113 @@
+.document-card-create {
+    width: 100%;
+    max-width: 750px;
+
+    margin: 0 auto;
+
+    padding: 32px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7ed;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 12px 24px rgba(0, 0, 0, 0.06);
+}
+
+.document-card-create__title {
+    margin-bottom: 28px;
+
+    text-align: center;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.document-card-create__form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.document-card-create__group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.document-card-create__group label {
+    font-size: 18px;
+    font-weight: 600;
+
+    color: #374151
+}
+
+.document-card-create__group input,
+.document-card-create__group select {
+    padding: 12px 24px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    transition: all 0.2s ease;
+
+    background-color: white;
+}
+
+.document-card-create__group input:focus,
+.document-card-create__group select:focus {
+    outline: none;
+
+    border-color: #2a1ce4;
+    color: #111827;
+
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.document-card-create__group input[type="file"] {
+    padding: 10px;
+
+    border: 2px dashed #c7d2fe;
+    border-radius: 12px;
+
+    background: #f8faff;
+    cursor: pointer;
+}
+
+.document-card-create__group input[type="file"]:hover {
+    border-color: #2a1ce4;
+}
+
+.document-card-create__button {
+    margin-top: 10px;
+
+    padding: 14px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #2a1ce4;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.document-card-create__button:hover {
+    background: #241abd;
+    transform: translateY(-1px);
+}
+
+.document-card-create__button:active {
+    transform: scale(0.98);
+}

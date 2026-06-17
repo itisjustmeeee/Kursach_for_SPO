@@ -1,16 +1,14 @@
+import "../../assets/styles/Cards/StatsCard.scss"
+
 export default function StatsCard({ title, value }) {
     return (
-        <div style={{
-            padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "8px"
-        }}>
-            <h3>
+        <div className="stats-card">
+            <span className="stats-card__title">
                 {title}
-            </h3>
-            <h3>
+            </span>
+            <div className="stats-card__value">
                 {value}
-            </h3>
+            </div>
         </div>
     )
 }

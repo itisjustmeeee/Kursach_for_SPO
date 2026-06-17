@@ -1,27 +1,27 @@
-
+import "../../assets/styles/Cards/userCard.scss"
 export default function UserCard({ user }) {
     return (
-        <div style={{
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "16px"
-        }}>
-            <h3>
-                {user.username}
-            </h3>
+        <div className="user-card">
+            <div className="user-card__header">
+                <h3 className="user-card__name">
+                    {user.username}
+                </h3>
+            </div>
 
-            <p>
-                ФИО: {" "}{user.last_name}{" "}{user.first_name}{" "}{user.middle_name || ""}
-            </p>
-            <p>
-                Телефон: {" "}{user.phone}
-            </p>
-            <p>
-                Почта: {" "}{user.email}
-            </p>
-            <p>
-                Отдел: {" "}{user.department}
-            </p>
+            <div className="user-card__info">
+                <span className="user-card__department">
+                        Отдел: {" "}{user.department}
+                </span>
+                <p>
+                    <strong>ФИО:</strong> {" "}{user.last_name}{" "}{user.first_name}{" "}{user.middle_name || ""}
+                </p>
+                <p>
+                    <strong>Телефон:</strong> {" "}{user.phone}
+                </p>
+                <p>
+                    <strong>Почта:</strong> {" "}{user.email}
+                </p>
+            </div>
         </div>
     )
 }

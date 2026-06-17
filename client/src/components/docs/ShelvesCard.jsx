@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import "../../assets/styles/shelfCard.scss"
+import "../../assets/styles/Cards/shelfCard.scss"
 
 export default function ShelfCard({ shelf }) {
     return (

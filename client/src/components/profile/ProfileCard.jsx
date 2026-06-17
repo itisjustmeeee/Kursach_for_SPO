@@ -1,5 +1,5 @@
 import profileImage from '../../assets/profile_image.jpg'
-import "../../assets/styles/profileCard.scss"
+import "../../assets/styles/Cards/profileCard.scss"
 
 export default function ProfileCard({ user, onLogout }) {
     return (

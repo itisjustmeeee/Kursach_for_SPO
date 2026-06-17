@@ -1,23 +1,20 @@
+import "../assets/styles/Cards/createCard.scss"
+
 export default function DocumentCreateCard({values, onChange, onFileChange, onSubmit, cells}) {
     return (
-        <div style={{
-            padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            maxWidth: "700px"
-        }}>
-            <h2>Добавление документа</h2>
+        <div className="document-card-create">
+            <h2 className="document-card-create__title">
+                Добавление документа
+            </h2>
 
-            <form onSubmit={onSubmit}>
-                <div>
+            <form className="document-card-create__form" onSubmit={onSubmit}>
+                <div className="document-card-create__group">
                     <label>Название</label>
                     <input
                         type="text"
                         value={values.title}
                         onChange={(e) => onChange("title", e.target.value)}
                     />
-                </div>
-                <div>
                     <label>Тема</label>
                     
                     <input
@@ -25,24 +22,19 @@ export default function DocumentCreateCard({values, onChange, onFileChange, onSu
                         value={values.subject}
                         onChange={(e) => onChange("subject", e.target.value)}
                     />
-                </div>
-                <div>
                     <label>Инвентарный номер</label>
                     <input
                         type="text"
                         value={values.inventory_number}
                         onChange={(e) => onChange("inventory_number", e.target.value)}
                     />
-                </div>
-                <div>
                     <label>Количество экземпляров</label>
                     <input
                         type="number"
                         value={values.quantity_total}
                         onChange={(e) => onChange("quantity_total", e.target.value)}
                     />
-                </div>
-                <div>
+
                     <label>Ячейка</label>
                     <select
                         value={values.cell_id}
@@ -60,15 +52,13 @@ export default function DocumentCreateCard({values, onChange, onFileChange, onSu
                             </option>
                         ))}
                     </select>
-                </div>
-                <div>
                     <label>Файл документа</label>
                     <input
                         type="file"
                         onChange={onFileChange}
                     />
                 </div>
-                <button type="submit">
+                <button className="document-card-create__button" type="submit">
                     Добавить документ
                 </button>
             </form>

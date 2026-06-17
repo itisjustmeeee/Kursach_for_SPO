@@ -4,6 +4,7 @@ import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import LoanCard from "../../components/docs/LoanCard.jsx"
 import { fetchActiveLoans, returnLoan } from "../../services/loanService.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function ActiveLoansPage() {
     const [loans, setLoans] = useState([])
@@ -52,10 +53,7 @@ export default function ActiveLoansPage() {
     }
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -96,33 +94,27 @@ export default function ActiveLoansPage() {
                 }
             />
 
-            <div style={{ flex: 1 }}>
-                <div style={{
-                    display: "flex",
-                    gap: "15px",
-                    marginBottom: "15px"
-                }}>
-                    <Link to="/loans/loan-history">
-                        История
-                    </Link>
-                </div>
-
-                <h1>
+            <div className="page-content">
+                <h1 className="page-header">
                     Активные выдачи
                 </h1>
 
-                <p>
-                    Всего: {" "}{loans.length}
-                </p>
+                <Link className="back-button" to="/loans/loan-history">
+                    История
+                </Link>
+
+                <span className="page-header__counter">
+                    Всего: {" "}{loans.length || 0}
+                </span>
                 <SearchBar
                     placeholder="Поиск по документу или пользователю..."
                     onSearch={setSearch}
                 />
 
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -138,11 +130,7 @@ export default function ActiveLoansPage() {
                 )}
 
                 {!loading && loans.length > 0 && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-                        gap: "16px"
-                    }}>
+                    <div className="cards-grid">
                         {loans.map(
                             loan => (
                                 <LoanCard

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import "../../assets/styles/rackCard.scss"
+import "../../assets/styles/Cards/rackCard.scss"
 
 export default function RacksCard({ rack }) {
     return (

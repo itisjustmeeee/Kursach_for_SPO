@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import DocumentCreateCard from "../../components/createDocumentCard.jsx"
 import { createDocument, uploadDocumentFile, createDocumentLocation } from "../../services/addDocumentService.js"
 import { fetchCells } from "../../services/CellService.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function CreateDocumentPage() {
     const navigate = useNavigate()
@@ -89,22 +90,24 @@ export default function CreateDocumentPage() {
     }
 
     if (loading) {
-        return <p>Loading...</p>
+        return <div className="state-card"> Loading... </div>
     }
 
     return (
-        <div style={{
-            padding: "20px"
-        }}>
-            <h1>Добавление документа</h1>
+        <div className="page">
+            <div className="page-content">
+                <h1 className="page-header">
+                    Добавление документа
+                </h1>
 
-            <DocumentCreateCard
-                values={values}
-                cells={cells}
-                onChange={handleChange}
-                onFileChange={handleFileChange}
-                onSubmit={handleSubmit}
-            />
+                <DocumentCreateCard
+                    values={values}
+                    cells={cells}
+                    onChange={handleChange}
+                    onFileChange={handleFileChange}
+                    onSubmit={handleSubmit}
+                />
+            </div>
         </div>
     )
 }

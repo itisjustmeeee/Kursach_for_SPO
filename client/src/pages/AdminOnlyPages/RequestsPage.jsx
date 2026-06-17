@@ -3,6 +3,7 @@ import Sidebar from "../../components/bars/Sidebar.jsx"
 import SearchBar from "../../components/bars/SearchBar.jsx"
 import LoanRequestCard from "../../components/requestCard.jsx"
 import { fetchPendingLoans, approveLoan, rejectLoan } from "../../services/loanRequestService.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function LoanRequestPage() {
     const [loans, setLoans] = useState([])
@@ -83,10 +84,7 @@ export default function LoanRequestPage() {
     })
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -98,10 +96,14 @@ export default function LoanRequestPage() {
                 ]}
             />
 
-            <div style={{ flex: 1 }}>
-                <h1>Заявки на выдачу документов</h1>
+            <div className="page-content">
+                <h1 className="page-header">
+                    Заявки на выдачу документов
+                </h1>
 
-                <p>Всего заявок: {filteredLoans.length}</p>
+                <span className="page-header__counter">
+                    Всего заявок: {filteredLoans.length || 0}
+                </span>
 
                 <SearchBar
                     placeholder="Поиск по пользователю или документу..."
@@ -109,9 +111,9 @@ export default function LoanRequestPage() {
                 />
 
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -127,11 +129,7 @@ export default function LoanRequestPage() {
                 )}
 
                 {!loading && filteredLoans.length > 0 && (
-                    <div style={{
-                        display: "grid",
-                        gap: "16px",
-                        marginTop: "20px"
-                    }}>
+                    <div className="cards-grid">
                         {filteredLoans.map(loan => (
                             <LoanRequestCard
                                 key={loan.id}

@@ -1,36 +1,35 @@
 import { Link } from "react-router-dom"
+import "../../assets/styles/Cards/docsAdminCard.scss"
 
 export default function DocsAdminCard({ document, onDelete }) {
     const location = document.document_locations?.[0]
 
     return (
-        <div style={{
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "16px"
-        }}>
-            <h3>{document.title}</h3>
+        <div className="doc-admin-card">
+            <div className="doc-admin-card__header">
+                <h3 className="doc-admin-card__title">
+                    {document.title}
+                </h3>
+            </div>
 
-            <p>
-                Инвентарный номер: {" "}{document.inventory_number}
-            </p>
-            <p>
-                Тема: {" "}{document.subject}
-            </p>
-            <p>
-                Экземпляров: {" "}{document.quantity_total}
-            </p>
-            <div style={{
-                display: "flex",
-                gap: "10px",
-                marginTop: "10px"
-            }}>
-                <Link to={ location 
+            <div className="doc-admin-card__info">
+                <p>
+                    <strong>Инвентарный номер:</strong> {" "}{document.inventory_number}
+                </p>
+                <p>
+                    <strong>Тема:</strong> {" "}{document.subject}
+                </p>
+                <p>
+                    <strong>Экземпляров:</strong> {" "}{document.quantity_total}
+                </p>
+            </div>
+            <div className="doc-admin-card__actions">
+                <Link className="doc-admin-card__link" to={location 
                     ? `/shelves/${location.cells.shelf_id}/cells/${location.cell_id}/documents/${document.id}`
                     : "#"}>
                     Подробнее
                 </Link>
-                <button onClick={() => onDelete(document.id)}>
+                <button className="doc-admin-card__delete" onClick={() => onDelete(document.id)}>
                     Удалить
                 </button>
             </div>

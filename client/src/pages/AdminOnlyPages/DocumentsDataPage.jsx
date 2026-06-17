@@ -4,6 +4,7 @@ import Sidebar from '../../components/bars/Sidebar.jsx'
 import StatsCard from "../../components/reports/StatsCard.jsx"
 import DocsAdminCard from "../../components/reports/docsAdminCard.jsx"
 import { fetchDocuments, fetchDocumentsStats, fetchUnusedDocuments, deleteDocument } from "../../services/documentsStatsService.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function DocumentsStatsPage() {
     const [stats, setStats] = useState(null)
@@ -60,14 +61,11 @@ export default function DocumentsStatsPage() {
     }
 
     if (loading && !stats) {
-        return <p>Loading...</p>
+        return <div className="state-card">Loading...</div>
     }
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -117,45 +115,40 @@ export default function DocumentsStatsPage() {
                     </div>
                 }
             />
-            <div style={{ flex: 1 }}>
-                <h1>Сведения о документах</h1>
-
-                {stats && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-                        gap: "16px",
-                        marginBottom: "30px"
-                    }}>
-                        <StatsCard
-                            title="Документов"
-                            value={stats.totalDocuments}
-                        />
-                        <StatsCard
-                            title="Экземпляров"
-                            value={stats.totalCopies}
-                        />
-                        <StatsCard
-                            title="С файлами"
-                            value={stats.documentsWithFiles}
-                        />
-                        <StatsCard
-                            title="Выдано"
-                            value={stats.issuedDocuments}
-                        />
-                    </div>
-                )}
+            <div className="page-content">
+                <h1 className="page-header">
+                    Сведения о документах
+                </h1>
 
                 <SearchBar
                     placeholder="Поиск документа..."
                     onSearch={setSearch}
                 />
-                <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                    gap: "16px",
-                    marginTop: "20px"
-                }}>
+
+                <div className="cards-grid">               
+                    <StatsCard
+                        title="Документов"
+                        value={stats.totalDocuments}
+                    />
+                    <StatsCard
+                        title="Экземпляров"
+                        value={stats.totalCopies}
+                    />
+                    <StatsCard
+                        title="С файлами"
+                        value={stats.documentsWithFiles}
+                    />
+                    <StatsCard
+                        title="Выдано"
+                        value={stats.issuedDocuments}
+                    />
+                </div> 
+
+                <h2 className="page__title">
+                    Документы
+                </h2>
+
+                <div className="cards-grid">
                     {documents.map(document => (
                         <DocsAdminCard
                             key={document.id}

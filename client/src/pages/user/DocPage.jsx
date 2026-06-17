@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom"
 import { fetchDocumentsById } from "../../services/getDocService.js"
 import { createLoanRequest } from "../../services/loanService.js"
 import api from "../../api/axios.js"
+import "../../assets/styles/DocPage.scss"
 
 export default function DocumentPage() {
     const { id, shelf_id, cell_id } = useParams()
@@ -60,48 +61,41 @@ export default function DocumentPage() {
     if (!document) return <p>Документ не найден</p>
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="document-page">
+            <div className="document-info-card">
 
-            <h2>{document.title}</h2>
-            <p>Инвентарный номер: {document.inventory_number}</p>
-            <p>Тема: {document.subject}</p>
-            <p>Количество: {document.quantity_total}</p>
-            <p>
-                Дата поступления:
-                {" "}
-                {new Date(document.created_at).toLocaleDateString()}
-            </p>
+                <h2>{document.title}</h2>
 
-            <div style={{
-                marginTop: "20px",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "8px"
-            }}>
+                <div className="document-info">
+                    <p><strong>Инвентарный номер:</strong> {document.inventory_number}</p>
+                    <p><strong>Тема:</strong> {document.subject}</p>
+                    <p><strong>Количество:</strong> {document.quantity_total}</p>
+                    <p>
+                        <strong>Дата поступления:</strong>
+                        {" "}
+                        {new Date(document.created_at).toLocaleDateString()}
+                    </p>
+                </div>
+            </div>
+
+            <div className="document-preview-card">
                 <h3>Содержимое документа</h3>
 
                 {document.file_path ? (
                     <>
                         {document.mime_type?.includes("pdf") ? (
                             <iframe
+                                className="document-pdf"
                                 src={`http://localhost:5000${document.file_path}`}
                                 title={document.title}
                                 width="100%"
                                 height="600"
-                                style={{
-                                    border: "1px solid #ccc",
-                                    borderRadius: "8px"
-                                }}
                             />
                         ) : document.mime_type?.startsWith("image/") ? (
                             <img
+                                className="document-image"
                                 src={`http://localhost:5000${document.file_path}`}
                                 alt={document.title}
-                                style={{
-                                    maxWidth: "100%",
-                                    maxHeight: "600px",
-                                    objectFit: "contain"
-                                }}
                             />
                         ) : (
                             <div>
@@ -114,9 +108,10 @@ export default function DocumentPage() {
                             </div>
                         )}
 
-                        <div style={{ marginTop: "10px" }}>
+                        <div className="document-action-card">
                             {canDownload ? (
                                 <a
+                                    className="document-download-btn"
                                     href={`http://localhost:5000${document.file_path}`}
                                     target="_blank"
                                     rel="noreferrer"
@@ -125,7 +120,7 @@ export default function DocumentPage() {
                                     Скачать документ
                                 </a>
                             ) : (
-                                <p style={{ color: "red" }}>
+                                <p className="document-access-warning">
                                     Скачивание доступно только после одобрения заявки
                                 </p>
                             )}
@@ -140,11 +135,11 @@ export default function DocumentPage() {
 
             <div style={{ marginTop: "20px" }}>
                 {!canDownload && (
-                    <button onClick={handleRequest} disabled={requestLoading}>
+                    <button className="document-request-btn" onClick={handleRequest} disabled={requestLoading}>
                         {requestLoading ? "Отправка..." : "Подать заявку на выдачу"}
                     </button>
                 )}
-                <Link to={`/shelves/${shelf_id}/cells/${cell_id}/documents`} style={{ marginLeft: "10px" }}>
+                <Link className="document-back-button " to={`/shelves/${shelf_id}/cells/${cell_id}/documents`}>
                     К списку документов
                 </Link>
             </div>

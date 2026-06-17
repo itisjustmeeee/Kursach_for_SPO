@@ -1,4 +1,4 @@
-import "../assets/styles/StorageFormCard.scss"
+import "../assets/styles/Cards/StorageFormCard.scss"
 
 export default function StorageFormCard({title, fields, values, onChange, onSubmit, submitText = "Создать"}) {
     return (

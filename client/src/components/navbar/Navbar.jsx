@@ -3,7 +3,7 @@ import useAuth from '../../hooks/useAuth.js'
 import { adminNavigation, baseNavigation, ROLES } from './navigation.js'
 import DropDown from "../../services/DropDown.jsx"
 import ProfileMenu from "../../services/ProfileMenu.jsx"
-import "../../assets/styles/navBar.scss"
+import "../../assets/styles/bars/navBar.scss"
 
 export default function Navbar() {
     const { user } = useAuth()

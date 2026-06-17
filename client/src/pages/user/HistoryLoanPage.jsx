@@ -4,6 +4,7 @@ import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import LoanCard from "../../components/docs/LoanCard.jsx"
 import { fetchHistoryLoans } from "../../services/HistoryLoanService.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function HistoryLoansPage() {
     const [loans, setLoans] = useState([])
@@ -40,10 +41,7 @@ export default function HistoryLoansPage() {
     }, [search, filters])
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -79,33 +77,27 @@ export default function HistoryLoansPage() {
                 }
             />
 
-            <div style={{ flex: 1 }}>
-                <div style={{
-                    display: "flex",
-                    gap: "15px",
-                    marginBottom: "15px"
-                }}>
-                    <Link to="/loans/loan-active">
-                        Активные выдачи
-                    </Link>
-                </div>
-
-                <h1>
+            <div className="page-content">
+                <h1 className="page-header">
                     История выдач
                 </h1>
 
-                <p>
+                <Link className="back-button" to="/loans/loan-active">
+                    Активные выдачи
+                </Link>
+
+                <span className="page-header__counter">
                     Всего записей: {" "}{loans?.length || 0}
-                </p>
+                </span>
                 <SearchBar
                     placeholder="Поиск документа или пользователя..."
                     onSearch={setSearch}
                 />
 
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -121,11 +113,7 @@ export default function HistoryLoansPage() {
                 )}
 
                 {!loading && loans?.length > 0 && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-                        gap: "16px"
-                    }}>
+                    <div className="cards-grid">
                         {loans.map(loan => (
                             <LoanCard
                                 key={loan.id}

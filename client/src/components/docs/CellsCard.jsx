@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import "../../assets/styles/cellCard.scss"
+import "../../assets/styles/Cards/cellCard.scss"
 
 export default function CellCard({ cell }) {
 

@@ -4,6 +4,7 @@ import SearchBar from "../../components/bars/SearchBar.jsx"
 import Sidebar from "../../components/bars/Sidebar.jsx"
 import DocumentCard from "../../components/docs/DocumentCard.jsx"
 import { fetchCellDocuments } from "../../services/cellDocumentsService.js"
+import "../../assets/styles/PagesStyle.scss"
 
 export default function DocumentsPage() {
     const { cell_id } = useParams()
@@ -41,10 +42,7 @@ export default function DocumentsPage() {
     }, [cell_id, search, filters])
 
     return (
-        <div style={{
-            display: "flex",
-            gap: "20px"
-        }}>
+        <div className="page">
             <Sidebar
                 filters={filters}
                 setFilters={setFilters}
@@ -82,18 +80,18 @@ export default function DocumentsPage() {
                 }
             />
 
-            <div style={{ flex: 1 }}>
-                <Link to={`/racks`}>
-                    к стеллажам
-                </Link>
-
-                <h1>
+            <div className="page-content">
+                <h1 className="page-header">
                     Документы
                 </h1>
 
-                <p>
+                <Link className="back-button" to={`/racks`}>
+                    к стеллажам
+                </Link>
+
+                <span className="page-header__counter">
                     Всего документов: {documents?.length || 0}
-                </p>
+                </span>
 
                 <SearchBar
                     placeholder="Поиск документа..."
@@ -101,9 +99,9 @@ export default function DocumentsPage() {
                 />
 
                 {loading && (
-                    <p>
+                    <div className="state-card">
                         Loading...
-                    </p>
+                    </div>
                 )}
 
                 {error && (
@@ -119,11 +117,7 @@ export default function DocumentsPage() {
                 )}
 
                 {!loading && documents?.length > 0 && (
-                    <div style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                        gap: "16px"
-                    }}>
+                    <div className="cards-grid">
                         {documents.map(document => (
                             <DocumentCard
                                 key={document.id}
