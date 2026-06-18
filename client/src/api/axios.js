@@ -20,7 +20,13 @@ api.interceptors.response.use(
     async (error) => {
         const original = error.config
 
-        if (error.response?.status === 401 && !original._retry) {
+        const authRoutes = [
+            "/auth/login",
+            "/auth/register",
+            "/auth/refresh"
+        ]
+
+        if (error.response?.status === 401 && !original._retry && !authRoutes.some(route => original.url?.includes(route))) {
             original._retry = true
 
             try {
@@ -39,7 +45,7 @@ api.interceptors.response.use(
             } catch (err) {
                 console.log(err)
                 localStorage.removeItem("token")
-                window.location.href = "login"
+                window.location.href = "/login"
             }
         }
 

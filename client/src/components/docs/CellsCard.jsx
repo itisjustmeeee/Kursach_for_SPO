@@ -11,6 +11,12 @@ export default function CellCard({ cell }) {
                 </h3>
 
                 <div className="cellCard__info">
+                    <p>
+                        <span>
+                            Полка: {cell.shelves?.code}
+                        </span>
+                    </p>
+
                     <p>Вместимость: {cell.max_capacity}</p>
 
                     <p>Заполнено: {cell.current_load}</p>

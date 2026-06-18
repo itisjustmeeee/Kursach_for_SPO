@@ -27,6 +27,10 @@ export const login = async (req, res, next) => {
             }
         })
 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
         const permissions = [
             ...new Set(
                 user.user_roles.flatMap(ur =>
@@ -34,10 +38,6 @@ export const login = async (req, res, next) => {
                 )
             )
         ]
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' })
-        }
 
         const validPassword = await comparePassword(password, user.password_hash)
 

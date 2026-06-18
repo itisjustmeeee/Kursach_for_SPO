@@ -12,7 +12,9 @@ export default function LoginPage() {
     const [error, setError] = useState("")
 
     const handleLogin = async (data) => {
+        setError("")
         try {
+
             const res = await api.post("/auth/login", data)
 
             const { user, accessToken } = res.data
@@ -20,6 +22,9 @@ export default function LoginPage() {
 
             navigate("/")
         } catch (err) {
+            console.log(err.response)
+            console.log(err.response?.data)
+
             setError(err?.response?.data?.message || "Ошибка входа")
         }
     }

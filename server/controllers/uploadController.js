@@ -1,4 +1,4 @@
-import { success } from "zod"
+import path from "path"
 import prisma from "../config/prisma.js"
 import { createAuditLogService } from "../services/auditService.js"
 import { optimizePdf } from "../services/pdfService.js"
@@ -20,12 +20,6 @@ export const uploadDocumentFile = async (req, res, next) => {
         if (!document) {
             return res.status(404).json({
                 message: 'document not found'
-            })
-        }
-
-        if (!req.file) {
-            return res.status(400).json({
-                message: 'file not uploaded'
             })
         }
 

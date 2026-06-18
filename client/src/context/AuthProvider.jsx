@@ -6,7 +6,6 @@ const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
 
     const login = (userData, token) => {
-        localStorage.clear()
         localStorage.setItem("token", token)
         setUser(userData)
     }
